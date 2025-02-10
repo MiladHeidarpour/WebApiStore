@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using WebSite.EndPoint.Models;
 
 namespace WebSite.EndPoint.Controllers
@@ -18,6 +19,7 @@ namespace WebSite.EndPoint.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
