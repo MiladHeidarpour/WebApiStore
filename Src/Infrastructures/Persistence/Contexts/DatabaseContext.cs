@@ -8,11 +8,11 @@ namespace Persistence.Contexts;
 
 public class DatabaseContext : DbContext, IDataBaseContext
 {
-    public DatabaseContext(DbContextOptions options) : base(options)
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
     {
 
     }
-    public DbSet<User> Users { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<User>().Property<DateTime?>("InsertTime");
