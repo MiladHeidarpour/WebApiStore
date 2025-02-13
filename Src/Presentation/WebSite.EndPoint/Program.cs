@@ -1,6 +1,9 @@
+using Application.Interfaces.Contexts;
+using Application.Visitors.SaveVisitorInfo;
 using Infrastructure.IdentityConfigs;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
+using Persistence.MongoContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DatabaseContext>(option=>option.UseSqlServer(connectionString));
+builder.Services.AddDbContext<DatabaseContext>(option => option.UseSqlServer(connectionString));
 
 builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddAuthorization();
@@ -19,6 +22,9 @@ builder.Services.ConfigureApplicationCookie(option =>
     option.AccessDeniedPath = "/Account/AccessDenied";
     option.SlidingExpiration = true;
 });
+
+builder.Services.AddTransient(typeof(IMongoDbContext<>), typeof(MongoDbContext<>));
+builder.Services.AddTransient<ISaveVisitorInfoService, SaveVisitorInfoService>();
 
 var app = builder.Build();
 
