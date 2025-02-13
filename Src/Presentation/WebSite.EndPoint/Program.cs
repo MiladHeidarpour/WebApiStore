@@ -4,6 +4,7 @@ using Infrastructure.IdentityConfigs;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 using Persistence.MongoContext;
+using WebSite.EndPoint.Utilities.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.ConfigureApplicationCookie(option =>
 
 builder.Services.AddTransient(typeof(IMongoDbContext<>), typeof(MongoDbContext<>));
 builder.Services.AddTransient<ISaveVisitorInfoService, SaveVisitorInfoService>();
+builder.Services.AddScoped<SaveVisitorFilter>();
 
 var app = builder.Build();
 
