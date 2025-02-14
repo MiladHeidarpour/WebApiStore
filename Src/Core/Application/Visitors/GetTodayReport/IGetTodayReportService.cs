@@ -35,15 +35,27 @@ public class GetTodayReportService : IGetTodayReportService
             {
                 TotalVisitors = allVisitorCount,
                 TotalPageViews = allPageViewCount,
-                PageViewsPerVisit = allPageViewCount / allVisitorCount,
+                PageViewsPerVisit = GetAvg(allPageViewCount, allVisitorCount),
             },
             Today = new TodayDto()
             {
                 PageViews = todayPageViewCount,
                 Visitors = todayVisitorCount,
-                ViewsPerVisitor = todayPageViewCount / todayVisitorCount,
+                ViewsPerVisitor = GetAvg(todayPageViewCount, todayVisitorCount),
             }
         };
+    }
+
+    private float GetAvg(long visitPage, long visitor)
+    {
+        if (visitor == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return visitPage / visitor;
+        }
     }
 }
 public class ResultTodayReportDto
