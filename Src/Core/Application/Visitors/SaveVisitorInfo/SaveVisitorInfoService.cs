@@ -41,7 +41,9 @@ public class SaveVisitorInfoService : ISaveVisitorInfoService
             {
                 Family = request.OperationSystem.Family,
                 Version = request.OperationSystem.Version
-            }
+            },
+            VisitorId = request.VisitorId,
+            Time = DateTime.Now,
         });
     }
 }

@@ -1,7 +1,13 @@
-﻿namespace Domain.Visitors;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace Domain.Visitors;
 
 public class Visitor
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; }
     public string Ip { get; set; }
     public string CurrentLink { get; set; }
     public string ReferrerLink { get; set; }
@@ -11,4 +17,6 @@ public class Visitor
     public VisitorVersion Browser { get; set; }
     public VisitorVersion OperationSystem { get; set; }
     public Device Device { get; set; }
+    public DateTime Time { get; set; }
+    public string VisitorId { get; set; }
 }

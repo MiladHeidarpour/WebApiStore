@@ -11,4 +11,5 @@ public class RequestSaveVisitorInfoDto
     public VisitorVersionDto Browser { get; set; }
     public VisitorVersionDto OperationSystem { get; set; }
     public DeviceDto Device { get; set; }
+    public string VisitorId { get; set; }
 }
