@@ -17,6 +17,7 @@ public class Visitor
     public VisitorVersion Browser { get; set; }
     public VisitorVersion OperationSystem { get; set; }
     public Device Device { get; set; }
+    [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
     public DateTime Time { get; set; }
     public string VisitorId { get; set; }
 }

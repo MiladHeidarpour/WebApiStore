@@ -160,8 +160,8 @@
                                 <th><div class="th-content"> شناسه کاربر </div></th>
                             </tr>
                         </thead>
-                        @* <tbody>
-                            @foreach (var item in Model.ResultTodayReport.visitors)
+                        <tbody>
+                            @* @foreach (var item in Model.ResultTodayReport.visitors)
                             {
                                 <tr>
                                     <td><div class="td-content product-brand">@item.Ip</div></td>
@@ -187,12 +187,9 @@
                                     <td><div class="td-content">@item.IsSpider</div></td>
                                     <td><div class="td-content pricing"><span class="">@item.Time</span></div></td>
                                     <td><div class="td-content"><span class="badge outline-badge-primary">@item.VisitorId</span></div></td>
-
                                 </tr>
-                            }
-
-
-                        </tbody> *@
+                            } *@
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -204,7 +201,7 @@
             <div class="widget-header">
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                        <h4>ساده</h4>
+                        <h4>بازدید 24 ساعت گذشته</h4>
                     </div>
                 </div>
             </div>
@@ -235,10 +232,10 @@
     <script src="~/Theme/assets/js/scrollspyNav.js"></script>
     <script src="~/Theme/assets/js/dashboard/dash_1.js"></script>
     <script src="~/Theme/plugins/apex/apexcharts.min.js"></script>
-    @* <script>
+    <script>
 
-        var DisplayHour=@Html.Raw(Json.Serialize(Model.ResultTodayReport.Today.VisitPerhour.Display));
-        var ValueHour=@Html.Raw(Json.Serialize(Model.ResultTodayReport.Today.VisitPerhour.Value));
+        var DisplayHour=@Html.Raw(Json.Serialize(Model.ResultTodayReport.Today.VisitPerHour.Display));
+        var ValueHour=@Html.Raw(Json.Serialize(Model.ResultTodayReport.Today.VisitPerHour.Value));
 
             var sline = {
                 chart: {
@@ -289,8 +286,8 @@
 
             ///----------
 
-        var DisplayDay=@Html.Raw(Json.Serialize(Model.ResultTodayReport.GeneralStats.VisitPerDay.Display));
-        var ValueDay=@Html.Raw(Json.Serialize(Model.ResultTodayReport.GeneralStats.VisitPerDay.Value));
+        var DisplayDay=@Html.Raw(Json.Serialize(Model.ResultTodayReport.GeneralStates.VisitPerDay.Display));
+        var ValueDay=@Html.Raw(Json.Serialize(Model.ResultTodayReport.GeneralStates.VisitPerDay.Value));
 
             var slineDay = {
                 chart: {
@@ -338,5 +335,5 @@
                 slineDay
             );
             chartDay.render();
-    </script> *@
+    </script>
 }

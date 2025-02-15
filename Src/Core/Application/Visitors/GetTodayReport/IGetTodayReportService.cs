@@ -29,6 +29,38 @@ public class GetTodayReportService : IGetTodayReportService
         var allPageViewCount = _collection.AsQueryable().LongCount();
         var allVisitorCount = _collection.AsQueryable().GroupBy(p => p.VisitorId).LongCount();
 
+        var todayPageViewList = _collection.AsQueryable().Where(p => p.Time >= start && p.Time < end).Select(p => new { p.Time }).ToList();
+        VisitCountDto visitPerHour = new VisitCountDto()
+        {
+            Display = new string[24],
+            Value = new int[24],
+        };
+
+        for (int i = 0; i <= 23; i++)
+        {
+            visitPerHour.Display[i] = $"H-{i}";
+            visitPerHour.Value[i] = todayPageViewList.Where(p => p.Time.Hour == i).Count();
+        }
+
+
+        DateTime MonthStart = DateTime.Now.Date.AddDays(-30);
+        DateTime MonthEnds = DateTime.Now.Date.AddDays(1);
+
+        var month_PageViewList = _collection.AsQueryable().Where(p => p.Time >= MonthStart && p.Time < MonthEnds).Select(p => new { p.Time }).ToList();
+
+        VisitCountDto visitPerDay = new VisitCountDto()
+        {
+            Display = new string[31],
+            Value = new int[31],
+        };
+
+        for (int i = 0; i <= 30; i++)
+        {
+            var currentDay=DateTime.Now.AddDays(i*(-1));
+            visitPerDay.Display[i] = i.ToString();
+            visitPerDay.Value[i] = month_PageViewList.Where(p => p.Time.Date == currentDay.Date).Count();
+        }
+
         return new ResultTodayReportDto()
         {
             GeneralStates = new GeneralStateDto()
@@ -36,12 +68,14 @@ public class GetTodayReportService : IGetTodayReportService
                 TotalVisitors = allVisitorCount,
                 TotalPageViews = allPageViewCount,
                 PageViewsPerVisit = GetAvg(allPageViewCount, allVisitorCount),
+                VisitPerDay = visitPerDay,
             },
             Today = new TodayDto()
             {
                 PageViews = todayPageViewCount,
                 Visitors = todayVisitorCount,
                 ViewsPerVisitor = GetAvg(todayPageViewCount, todayVisitorCount),
+                VisitPerHour = visitPerHour,
             }
         };
     }
@@ -71,6 +105,7 @@ public class GeneralStateDto
     public long TotalPageViews { get; set; }
     public long TotalVisitors { get; set; }
     public float PageViewsPerVisit { get; set; }
+    public VisitCountDto VisitPerDay { get; set; }
 }
 
 public class TodayDto
@@ -78,4 +113,11 @@ public class TodayDto
     public long PageViews { get; set; }
     public long Visitors { get; set; }
     public float ViewsPerVisitor { get; set; }
+    public VisitCountDto VisitPerHour { get; set; }
+}
+
+public class VisitCountDto
+{
+    public string[] Display { get; set; }
+    public int[] Value { get; set; }
 }
