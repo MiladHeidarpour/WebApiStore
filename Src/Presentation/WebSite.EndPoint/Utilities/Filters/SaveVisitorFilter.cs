@@ -31,16 +31,18 @@ public class SaveVisitorFilter : IActionFilter
         var currentUrl = context.HttpContext.Request.Path;
         var requert = context.HttpContext.Request;
         string visitorId = context.HttpContext.Request.Cookies["VisitorId"];
-        if (visitorId == null)
-        {
-            visitorId = Guid.NewGuid().ToString();
-            context.HttpContext.Response.Cookies.Append("VisitorId", visitorId,new CookieOptions()
-            {
-                Path = "/",
-                HttpOnly = true,
-                Expires = DateTime.Now.AddDays(30),
-            });
-        }
+
+        //Moved to SetVisitorId 
+        //if (visitorId == null)
+        //{
+        //    visitorId = Guid.NewGuid().ToString();
+        //    context.HttpContext.Response.Cookies.Append("VisitorId", visitorId,new CookieOptions()
+        //    {
+        //        Path = "/",
+        //        HttpOnly = true,
+        //        Expires = DateTime.Now.AddDays(30),
+        //    });
+        //}
 
         _infoService.Execute(new RequestSaveVisitorInfoDto()
         {
