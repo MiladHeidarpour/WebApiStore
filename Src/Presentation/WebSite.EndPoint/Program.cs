@@ -1,3 +1,4 @@
+using Application.Catalogs.CatalogTypes.CrudService;
 using Application.Interfaces.Contexts;
 using Application.Visitors.SaveVisitorInfo;
 using Application.Visitors.VisitorOnline;

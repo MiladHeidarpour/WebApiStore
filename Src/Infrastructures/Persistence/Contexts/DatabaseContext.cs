@@ -3,6 +3,9 @@ using Domain.Attributes;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Domain.Catalogs;
+using Persistence.EntityConfigurations;
+using Persistence.Seeds;
 
 namespace Persistence.Contexts;
 
@@ -12,7 +15,9 @@ public class DatabaseContext : DbContext, IDataBaseContext
     {
 
     }
-    
+
+    public DbSet<CatalogBrand> CatalogBrands { get; set; }
+    public DbSet<CatalogType> CatalogTypes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<User>().Property<DateTime?>("InsertTime");
@@ -22,12 +27,19 @@ public class DatabaseContext : DbContext, IDataBaseContext
         {
             if (entityType.ClrType.GetCustomAttributes(typeof(AuditableAttribute), true).Length > 0)
             {
-                modelBuilder.Entity(entityType.Name).Property<DateTime>("InsertTime");
+                modelBuilder.Entity(entityType.Name).Property<DateTime>("InsertTime").HasDefaultValue(DateTime.Now);
                 modelBuilder.Entity(entityType.Name).Property<DateTime?>("UpdateTime");
                 modelBuilder.Entity(entityType.Name).Property<DateTime?>("RemoveTime");
-                modelBuilder.Entity(entityType.Name).Property<bool>("IsRemoved");
+                modelBuilder.Entity(entityType.Name).Property<bool>("IsRemoved").HasDefaultValue(false);
             }
         }
+        modelBuilder.Entity<CatalogType>()
+            .HasQueryFilter(m => EF.Property<bool>(m, "IsRemoved") == false);
+
+        modelBuilder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
+
+        DatabaseContextSeed.CatalogSeed(modelBuilder);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -60,8 +72,9 @@ public class DatabaseContext : DbContext, IDataBaseContext
 
             if (item.State == EntityState.Deleted && removed != null && isRemoved != null)
             {
-                item.Property("UpdateTime").CurrentValue = DateTime.Now;
+                item.Property("RemoveTime").CurrentValue = DateTime.Now;
                 item.Property("IsRemoved").CurrentValue = true;
+                item.State = EntityState.Modified;
             }
         }
         return base.SaveChanges();
