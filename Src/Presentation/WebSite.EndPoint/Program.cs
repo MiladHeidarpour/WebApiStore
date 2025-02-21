@@ -1,8 +1,10 @@
 using Application.Catalogs.CatalogTypes.CrudService;
+using Application.Catalogs.GetMenuItem;
 using Application.Interfaces.Contexts;
 using Application.Visitors.SaveVisitorInfo;
 using Application.Visitors.VisitorOnline;
 using Infrastructure.IdentityConfigs;
+using Infrastructure.MappingProfile;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
@@ -16,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient<IDataBaseContext, DatabaseContext>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(option => option.UseSqlServer(connectionString));
 
@@ -34,6 +37,9 @@ builder.Services.AddTransient<ISaveVisitorInfoService, SaveVisitorInfoService>()
 builder.Services.AddScoped<SaveVisitorFilter>();
 builder.Services.AddSignalR();
 builder.Services.AddTransient<IVisitorOnlineService, VisitorOnlineService>();
+builder.Services.AddTransient<IGetMenuItemService, GetMenuItemService>();
+
+builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));
 
 var app = builder.Build();
 
