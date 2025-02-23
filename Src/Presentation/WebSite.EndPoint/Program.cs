@@ -1,3 +1,6 @@
+using Application.Catalogs.CatalogItems.CatalogItemPDP;
+using Application.Catalogs.CatalogItems.GetCatalogItemPLP;
+using Application.Catalogs.CatalogItems.UriComposer;
 using Application.Catalogs.CatalogTypes.CrudService;
 using Application.Catalogs.GetMenuItem;
 using Application.Interfaces.Contexts;
@@ -16,7 +19,7 @@ using WebSite.EndPoint.Utilities.MiddleWares;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddTransient<IDataBaseContext, DatabaseContext>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -38,6 +41,9 @@ builder.Services.AddScoped<SaveVisitorFilter>();
 builder.Services.AddSignalR();
 builder.Services.AddTransient<IVisitorOnlineService, VisitorOnlineService>();
 builder.Services.AddTransient<IGetMenuItemService, GetMenuItemService>();
+builder.Services.AddTransient<IGetCatalogItemPLPService, GetCatalogItemPLPService>();
+builder.Services.AddTransient<IGetCatalogItemPDPService, GetCatalogItemPDPService>();
+builder.Services.AddTransient<IUriComposerService, UriComposerService>();
 
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));
 
