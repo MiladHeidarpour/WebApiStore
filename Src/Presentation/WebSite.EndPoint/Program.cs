@@ -1,3 +1,4 @@
+using Application.BasketsService;
 using Application.Catalogs.CatalogItems.CatalogItemPDP;
 using Application.Catalogs.CatalogItems.GetCatalogItemPLP;
 using Application.Catalogs.CatalogItems.UriComposer;
@@ -44,6 +45,7 @@ builder.Services.AddTransient<IGetMenuItemService, GetMenuItemService>();
 builder.Services.AddTransient<IGetCatalogItemPLPService, GetCatalogItemPLPService>();
 builder.Services.AddTransient<IGetCatalogItemPDPService, GetCatalogItemPDPService>();
 builder.Services.AddTransient<IUriComposerService, UriComposerService>();
+builder.Services.AddTransient<IBasketService, BasketService>();
 
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));
 

@@ -45,6 +45,18 @@ public class BasketService : IBasketService
         };
     }
 
+    public void AddItemToBasket(int basketId, int catalogItemId, int quantity = 1)
+    {
+        var basket = _context.Baskets.FirstOrDefault(p => p.Id == basketId);
+        if (basket == null)
+            throw new Exception("");
+
+        var catalog = _context.CatalogItems.Find(catalogItemId);
+        basket.AddItem(catalogItemId, quantity, catalog.Price);
+
+        _context.SaveChanges();
+    }
+
     private BasketDto CreateBasketForUser(string BuyerId)
     {
         Basket basket = new Basket(BuyerId);

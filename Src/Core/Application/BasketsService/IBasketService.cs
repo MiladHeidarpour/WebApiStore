@@ -5,6 +5,7 @@ namespace Application.BasketsService;
 public interface IBasketService
 {
     BasketDto GetOrCreateBasketForUser(string BuyerId);
+    void AddItemToBasket(int basketId, int catalogItemId, int quantity = 1);
 }
 
 public class BasketDto
