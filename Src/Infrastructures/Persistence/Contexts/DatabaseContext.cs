@@ -3,6 +3,7 @@ using Domain.Attributes;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Domain.Baskets;
 using Domain.Catalogs;
 using Persistence.EntityConfigurations;
 using Persistence.Seeds;
@@ -16,9 +17,12 @@ public class DatabaseContext : DbContext, IDataBaseContext
 
     }
 
+
     public DbSet<CatalogBrand> CatalogBrands { get; set; }
     public DbSet<CatalogType> CatalogTypes { get; set; }
     public DbSet<CatalogItem> CatalogItems { get; set; }
+    public DbSet<Basket> Baskets { get; set; }
+    public DbSet<BasketItem> BasketItems { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<User>().Property<DateTime?>("InsertTime");
