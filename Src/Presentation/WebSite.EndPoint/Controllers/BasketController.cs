@@ -31,6 +31,18 @@ public class BasketController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    public IActionResult RemoveItemFromBasket(int itemId)
+    {
+        _basketService.RemoveItemFromBasket(itemId);
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public IActionResult SetQuantity(int basketItemId, int quantity)
+    {
+        return Json(_basketService.SetQuantities(basketItemId, quantity));
+    }
     private BasketDto GetOrSetBasket()
     {
         if (_signInManager.IsSignedIn(User))

@@ -41,6 +41,12 @@ public class DatabaseContext : DbContext, IDataBaseContext
         modelBuilder.Entity<CatalogType>()
             .HasQueryFilter(m => EF.Property<bool>(m, "IsRemoved") == false);
 
+        modelBuilder.Entity<Basket>()
+            .HasQueryFilter(m => EF.Property<bool>(m, "IsRemoved") == false);
+
+        modelBuilder.Entity<BasketItem>()
+            .HasQueryFilter(m => EF.Property<bool>(m, "IsRemoved") == false);
+
         modelBuilder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
 

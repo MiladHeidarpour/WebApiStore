@@ -6,6 +6,8 @@ public interface IBasketService
 {
     BasketDto GetOrCreateBasketForUser(string BuyerId);
     void AddItemToBasket(int basketId, int catalogItemId, int quantity = 1);
+    bool RemoveItemFromBasket(int itemId);
+    bool SetQuantities(int itemId, int quantity);
 }
 
 public class BasketDto

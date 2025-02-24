@@ -40,12 +40,17 @@ public class BasketItem
     public BasketItem(int catalogItemId, int quantity, int unitPrice)
     {
         CatalogItemId = catalogItemId;
-        UnitPrice = unitPrice;
-        Quantity = quantity;
+        UnitPrice = unitPrice; 
+        SetQuantity(quantity);
     }
 
     public void AddQuantity(int quantity)
     {
         Quantity += quantity;
+    }
+
+    public void SetQuantity(int quantity)
+    { 
+        Quantity = quantity;
     }
 }

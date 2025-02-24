@@ -57,6 +57,22 @@ public class BasketService : IBasketService
         _context.SaveChanges();
     }
 
+    public bool RemoveItemFromBasket(int itemId)
+    {
+        var item = _context.BasketItems.SingleOrDefault(p => p.Id == itemId);
+        _context.BasketItems.Remove(item);
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool SetQuantities(int itemId, int quantity)
+    {
+        var item = _context.BasketItems.SingleOrDefault(p => p.Id == itemId);
+        item.SetQuantity(quantity);
+        _context.SaveChanges();
+        return true;
+    }
+
     private BasketDto CreateBasketForUser(string BuyerId)
     {
         Basket basket = new Basket(BuyerId);
