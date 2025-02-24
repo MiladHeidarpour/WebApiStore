@@ -8,6 +8,7 @@ public interface IBasketService
     void AddItemToBasket(int basketId, int catalogItemId, int quantity = 1);
     bool RemoveItemFromBasket(int itemId);
     bool SetQuantities(int itemId, int quantity);
+    BasketDto GetBasketForUser(string userId);
 }
 
 public class BasketDto
@@ -15,6 +16,15 @@ public class BasketDto
     public int Id { get; set; }
     public string BuyerId { get; set; }
     public List<BasketItemDto> Items { get; set; } = new List<BasketItemDto>();
+
+    public int Total()
+    {
+        if (Items.Count > 0)
+        {
+            return Items.Sum(p => p.UnitPrice * p.Quantity);
+        }
+        return 0;
+    }
 
 }
 

@@ -73,6 +73,35 @@ public class BasketService : IBasketService
         return true;
     }
 
+    public BasketDto GetBasketForUser(string userId)
+    {
+        var basket = _context.Baskets
+            .Include(p => p.Items)
+            .ThenInclude(p => p.CatalogItem)
+            .ThenInclude(p => p.CatalogItemImages)
+            .SingleOrDefault(p => p.BuyerId == userId);
+
+        if (basket == null)
+        {
+            //سبد خرید را ایجاد کنید
+            return null;
+        }
+        return new BasketDto
+        {
+            Id = basket.Id,
+            BuyerId = basket.BuyerId,
+            Items = basket.Items.Select(item => new BasketItemDto
+            {
+                CatalogItemId = item.CatalogItemId,
+                Id = item.Id,
+                CatalogName = item.CatalogItem.Name,
+                Quantity = item.Quantity,
+                UnitPrice = item.UnitPrice,
+                ImageUrl = _uriService.ComposeImageUri(item?.CatalogItem?.CatalogItemImages?.FirstOrDefault()?.Src ?? ""),
+            }).ToList(),
+        };
+    }
+
     private BasketDto CreateBasketForUser(string BuyerId)
     {
         Basket basket = new Basket(BuyerId);
