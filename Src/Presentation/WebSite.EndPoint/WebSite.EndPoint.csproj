@@ -24,4 +24,9 @@
     <ProjectReference Include="..\..\Infrastructures\Persistence\Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Customers\Data\" />
+    <Folder Include="Areas\Customers\Models\" />
+  </ItemGroup>
+
 </Project>

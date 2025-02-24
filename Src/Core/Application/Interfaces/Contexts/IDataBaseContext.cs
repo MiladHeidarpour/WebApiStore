@@ -7,11 +7,12 @@ namespace Application.Interfaces.Contexts;
 
 public interface IDataBaseContext
 {
-    public DbSet<CatalogBrand> CatalogBrands { get; set; }
-    public DbSet<CatalogType> CatalogTypes { get; set; }
-    public DbSet<CatalogItem> CatalogItems { get; set; }
-    public DbSet<Basket> Baskets { get; set; }
-    public DbSet<BasketItem> BasketItems { get; set; }
+     DbSet<CatalogBrand> CatalogBrands { get; set; }
+     DbSet<CatalogType> CatalogTypes { get; set; }
+     DbSet<CatalogItem> CatalogItems { get; set; }
+     DbSet<Basket> Baskets { get; set; }
+     DbSet<BasketItem> BasketItems { get; set; }
+     DbSet<UserAddress> UserAddresses { get; set; }
     int SaveChanges();
     int SaveChanges(bool acceptAllChangesOnSuccess);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
