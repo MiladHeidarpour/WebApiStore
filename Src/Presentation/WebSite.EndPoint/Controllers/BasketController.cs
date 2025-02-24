@@ -3,6 +3,7 @@ using Domain.Catalogs;
 using Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebSite.EndPoint.Utilities;
 
 namespace WebSite.EndPoint.Controllers;
 
@@ -47,7 +48,8 @@ public class BasketController : Controller
     {
         if (_signInManager.IsSignedIn(User))
         {
-            return _basketService.GetOrCreateBasketForUser(User.Identity.Name);
+            userId = ClaimUtility.GetUserId(User);
+            return _basketService.GetOrCreateBasketForUser(userId);
         }
         else
         {

@@ -102,6 +102,31 @@ public class BasketService : IBasketService
         };
     }
 
+    public void TransferBasket(string anonymousId, string userId)
+    {
+        var anonymousBasket = _context.Baskets.SingleOrDefault(p => p.BuyerId == anonymousId);
+        if (anonymousBasket == null)
+        {
+            return;
+        }
+
+        var userBasket = _context.Baskets.SingleOrDefault(p => p.BuyerId == userId);
+        if (userBasket==null)
+        {
+            userBasket = new Basket(userId);
+            _context.Baskets.Add(userBasket);
+            
+        }
+
+        foreach (var item in anonymousBasket.Items)
+        {
+            userBasket.AddItem(item.CatalogItemId,item.Quantity,item.UnitPrice);
+        }
+
+        _context.Baskets.Remove(anonymousBasket);
+        _context.SaveChanges();
+    }
+
     private BasketDto CreateBasketForUser(string BuyerId)
     {
         Basket basket = new Basket(BuyerId);

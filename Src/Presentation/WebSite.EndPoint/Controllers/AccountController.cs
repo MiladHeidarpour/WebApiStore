@@ -1,4 +1,5 @@
-﻿using Domain.Users;
+﻿using Application.BasketsService;
+using Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebSite.EndPoint.Models.ViewModels.Users;
@@ -12,11 +13,13 @@ public class AccountController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IBasketService _basketService;
 
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IBasketService basketService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _basketService = basketService;
     }
 
     public IActionResult Login(string returnUrl = "/")
@@ -46,6 +49,7 @@ public class AccountController : Controller
         var result = _signInManager.PasswordSignInAsync(user, model.Password, model.IsPersistent, true).Result;
         if (result.Succeeded)
         {
+            TransferBasketForUser(user.Id);
             return Redirect(model.ReturnUrl);
         }
         return View(model);
@@ -80,6 +84,9 @@ public class AccountController : Controller
         var result = _userManager.CreateAsync(newUser, model.Password).Result;
         if (result.Succeeded)
         {
+            var user = _userManager.FindByNameAsync(newUser.Email).Result;
+            TransferBasketForUser(user.Id);
+            _signInManager.SignInAsync(user, true).Wait();
             return RedirectToAction(nameof(Profile));
         }
 
@@ -93,5 +100,16 @@ public class AccountController : Controller
     public IActionResult Profile()
     {
         return View();
+    }
+
+    private void TransferBasketForUser(string userId)
+    {
+        string cookieName = "BasketId";
+        if (Request.Cookies.ContainsKey(cookieName))
+        {
+            var anonymousId= Request.Cookies[cookieName];
+            _basketService.TransferBasket(anonymousId, userId);
+            Response.Cookies.Delete(cookieName);
+        }
     }
 }
