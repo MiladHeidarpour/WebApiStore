@@ -5,6 +5,7 @@ using Application.Catalogs.CatalogItems.UriComposer;
 using Application.Catalogs.CatalogTypes.CrudService;
 using Application.Catalogs.GetMenuItem;
 using Application.Interfaces.Contexts;
+using Application.Orders;
 using Application.Users;
 using Application.Visitors.SaveVisitorInfo;
 using Application.Visitors.VisitorOnline;
@@ -48,6 +49,7 @@ builder.Services.AddTransient<IGetCatalogItemPDPService, GetCatalogItemPDPServic
 builder.Services.AddTransient<IUriComposerService, UriComposerService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
 builder.Services.AddTransient<IUserAddressService, UserAddressService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddAutoMapper(typeof(UserMappingProfile));
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));
