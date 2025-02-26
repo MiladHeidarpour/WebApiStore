@@ -12,8 +12,8 @@ using Persistence.Contexts;
 namespace Persistence.Migrations.IdentityDatabase
 {
     [DbContext(typeof(IdentityDatabaseContext))]
-    [Migration("20250210131654_RenameUserIdentity")]
-    partial class RenameUserIdentity
+    [Migration("20250226163108_AddIdentity")]
+    partial class AddIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

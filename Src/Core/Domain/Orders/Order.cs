@@ -27,6 +27,11 @@ public class Order
     {
 
     }
+
+    public int TotalPrice()
+    {
+        return _orderItems.Sum(p => p.UnitPrice * p.Units);
+    }
 }
 
 [Auditable]

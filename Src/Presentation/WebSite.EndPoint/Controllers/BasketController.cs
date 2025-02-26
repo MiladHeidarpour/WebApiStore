@@ -1,5 +1,6 @@
 ﻿using Application.BasketsService;
 using Application.Orders;
+using Application.Payments;
 using Application.Users;
 using Domain.Catalogs;
 using Domain.Orders;
@@ -19,14 +20,16 @@ public class BasketController : Controller
     private readonly IUserAddressService _userAddressService;
     private readonly IOrderService _orderService;
     private readonly SignInManager<User> _signInManager;
+    private readonly IPaymentService _paymentService;
     private string userId = null;
 
-    public BasketController(IBasketService basketService, SignInManager<User> signInManager, IUserAddressService userAddressService, IOrderService orderService)
+    public BasketController(IBasketService basketService, SignInManager<User> signInManager, IUserAddressService userAddressService, IOrderService orderService, IPaymentService paymentService)
     {
         _basketService = basketService;
         _signInManager = signInManager;
         _userAddressService = userAddressService;
         _orderService = orderService;
+        _paymentService = paymentService;
     }
 
     [AllowAnonymous]
@@ -62,7 +65,7 @@ public class BasketController : Controller
 
     public IActionResult ShippingPayment()
     {
-        ShippingPaymentViewModel viewModel= new ShippingPaymentViewModel();
+        ShippingPaymentViewModel viewModel = new ShippingPaymentViewModel();
         string userId = ClaimUtility.GetUserId(User);
         viewModel.Basket = _basketService.GetBasketForUser(userId);
         viewModel.UserAddresses = _userAddressService.GetAddresses(userId);
@@ -70,15 +73,16 @@ public class BasketController : Controller
     }
 
     [HttpPost]
-    public IActionResult ShippingPayment(int Address,PaymentMethod PaymentMethod)
+    public IActionResult ShippingPayment(int Address, PaymentMethod PaymentMethod)
     {
         string userId = ClaimUtility.GetUserId(User);
         var basket = _basketService.GetBasketForUser(userId);
         int orderId = _orderService.CreateOrder(basket.Id, Address, PaymentMethod);
-        if (PaymentMethod==PaymentMethod.OnlinePaymnt)
+        if (PaymentMethod == PaymentMethod.OnlinePaymnt)
         {
-            //
-            return View();
+            var payment = _paymentService.PayForOrder(orderId);
+
+            return RedirectToAction("Index", "Pay", new { paymentId = payment.PaymentId });
         }
         else
         {

@@ -6,6 +6,7 @@ using Application.Catalogs.CatalogTypes.CrudService;
 using Application.Catalogs.GetMenuItem;
 using Application.Interfaces.Contexts;
 using Application.Orders;
+using Application.Payments;
 using Application.Users;
 using Application.Visitors.SaveVisitorInfo;
 using Application.Visitors.VisitorOnline;
@@ -25,6 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddTransient<IDataBaseContext, DatabaseContext>();
+builder.Services.AddTransient<IIdentityDatabaseContext, IdentityDatabaseContext>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(option => option.UseSqlServer(connectionString));
 
@@ -50,6 +52,8 @@ builder.Services.AddTransient<IUriComposerService, UriComposerService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
 builder.Services.AddTransient<IUserAddressService, UserAddressService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IPaymentService, PaymentService>();
+
 
 builder.Services.AddAutoMapper(typeof(UserMappingProfile));
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));

@@ -8,6 +8,7 @@ using Domain.Catalogs;
 using Domain.Orders;
 using Persistence.EntityConfigurations;
 using Persistence.Seeds;
+using Domain.Payments;
 
 namespace Persistence.Contexts;
 
@@ -27,6 +28,7 @@ public class DatabaseContext : DbContext, IDataBaseContext
     public DbSet<UserAddress> UserAddresses { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<Payment> Payments { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<User>().Property<DateTime?>("InsertTime");
