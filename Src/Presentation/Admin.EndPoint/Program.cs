@@ -2,6 +2,7 @@ using Admin.EndPoint.MappingProfiles;
 using Application.Catalogs.CatalogItems.AddNewCatalogItem;
 using Application.Catalogs.CatalogItems.CatalogItemServices;
 using Application.Catalogs.CatalogTypes.CrudService;
+using Application.Discounts.AddNewDiscountService;
 using Application.Interfaces.Contexts;
 using Application.Visitors.GetTodayReport;
 using FluentValidation;
@@ -27,6 +28,7 @@ builder.Services.AddTransient<IAddNewCatalogItemService, AddNewCatalogItemServic
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 builder.Services.AddTransient<IValidator<AddNewCatalogItemDto>, AddNewCatalogItemDtoValidator>();
 builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
+builder.Services.AddTransient<IAddNewDiscountService, AddNewDiscountService>();
 //mapper
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));
 builder.Services.AddAutoMapper(typeof(CatalogVMMappingProfile));
