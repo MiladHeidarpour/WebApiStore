@@ -89,6 +89,11 @@ public class BasketController : Controller
             return RedirectToAction("Index", "Orders", new { area = "Customers" });
         }
     }
+
+    public IActionResult CheckOut()
+    {
+        return View();
+    }
     private BasketDto GetOrSetBasket()
     {
         if (_signInManager.IsSignedIn(User))

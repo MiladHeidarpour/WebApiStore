@@ -5,7 +5,7 @@ namespace Domain.Orders;
 [Auditable]
 public class Order
 {
-    public int Id { get; set; } 
+    public int Id { get; set; }
     public string UserId { get; private set; }
     public DateTime OrderDate { get; private set; } = DateTime.Now;
     public Address Address { get; private set; }
@@ -14,7 +14,7 @@ public class Order
     public OrderStatus OrderStatus { get; private set; }
     private readonly List<OrderItem> _orderItems = new List<OrderItem>();
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
-    
+
     public Order(string userId, Address address, List<OrderItem> orderItems, PaymentMethod paymentMethod)
     {
         UserId = userId;
@@ -32,6 +32,21 @@ public class Order
     {
         return _orderItems.Sum(p => p.UnitPrice * p.Units);
     }
+
+    public void PaymentDone()
+    {
+        PaymentStatus = PaymentStatus.Paid;
+    }
+
+    public void OrderDelivered()
+    {
+        OrderStatus = OrderStatus.Delivered;
+    }
+
+    public void OrderReturned()
+    {
+        OrderStatus = OrderStatus.Returned;
+    }
 }
 
 [Auditable]
@@ -43,7 +58,7 @@ public class OrderItem
     public string PictureUri { get; private set; }
     public int UnitPrice { get; private set; }
     public int Units { get; private set; }
-    
+
     public OrderItem(int catalogItemId, string productName, string pictureUri, int unitPrice, int units)
     {
         CatalogItemId = catalogItemId;
@@ -52,7 +67,7 @@ public class OrderItem
         UnitPrice = unitPrice;
         Units = units;
     }
-    
+
     //ef core
     public OrderItem()
     {
@@ -66,9 +81,9 @@ public class Address
     public string City { get; private set; }
     public string ZipCode { get; private set; }
     public string PostalAddress { get; private set; }
-    
+
     public string ReciverName { get; private set; }
-    
+
     public Address(string city, string state, string zipCode, string postalAddress)
     {
         this.City = city;

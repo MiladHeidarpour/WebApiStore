@@ -9,6 +9,7 @@ public interface IPaymentService
 {
     PaymentOfOrderDto PayForOrder(int orderId);
     PaymentDto GetPayment(Guid id);
+    bool VerifyPayment(Guid id, string authority, long refId);
 
 }
 
@@ -75,6 +76,20 @@ public class PaymentService : IPaymentService
             Description = description,
         };
         return paymentDto;
+    }
+
+    public bool VerifyPayment(Guid id, string authority, long refId)
+    {
+        var payment = _context.Payments.Include(p => p.Order).SingleOrDefault(p => p.Id == id);
+        if (payment==null)
+        {
+            throw new Exception("");
+        }
+
+        payment.Order.PaymentDone();
+        payment.PaymentIsDone(authority, refId);
+        _context.SaveChanges();
+        return true;
     }
 }
 

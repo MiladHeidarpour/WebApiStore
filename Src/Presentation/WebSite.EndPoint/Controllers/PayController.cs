@@ -1,7 +1,9 @@
 ﻿using System.Text;
 using Application.Payments;
+using Domain.Payments;
 using Dto.Payment;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.MSIdentity.Shared;
 using Newtonsoft.Json;
 using RestSharp;
 using WebSite.EndPoint.Utilities;
@@ -62,9 +64,55 @@ public class PayController : Controller
         RequestModel result = JsonConvert.DeserializeObject<RequestModel>(responseString);
         return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + result.Data.Authority);
     }
-    public IActionResult Verify(Guid Id, string Authority)
+    public IActionResult Verify(Guid id, string authority)
     {
-        return View();
+        string status = HttpContext.Request.Query["Status"];
+        if (status!=""&&status.ToString().ToLower()=="ok"&&authority!="")
+        {
+            var payment = _paymentService.GetPayment(id);
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            var client = new RestClient("https://sandbox.zarinpal.com/pg/v4/payment/verify.json");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json", $"{{\"merchant_id\" :\"{merchantId}\",\"authority\":\"{authority}\",\"amount\":\"{payment.Amount}\"}}", ParameterType.RequestBody);
+            var response = client.Execute(request);
+
+            //VerificationPayResultDto verification = JsonConvert.DeserializeObject<VerificationPayResultDto>(response.Content);
+
+            var responseObject = JsonConvert.DeserializeObject<RootObject>(response.Content);
+            VerificationPayResultDto verification = new VerificationPayResultDto
+            {
+                Status = responseObject.Data.Code,
+                RefID = responseObject.Data.Ref_ID,
+            };
+
+            if (verification.Status == 100)
+            {
+                bool verifyResult = _paymentService.VerifyPayment(id, authority, verification.RefID);
+                if (verifyResult)
+                {
+                    return Redirect("/customers/orders/");
+                }
+                else
+                {
+                    TempData["message"] = "پرداخت انجام شد اما ثبت نشد";
+                    return RedirectToAction("checkout", "basket");
+                }
+            }
+            else
+            {
+                TempData["message"] = "پرداخت شما ناموفق بوده است . لطفا مجددا تلاش نمایید یا در صورت بروز مشکل با مدیریت سایت تماس بگیرید .";
+                return RedirectToAction("checkout", "basket");
+            }
+
+        }
+        TempData["message"] = "پرداخت شما ناموفق بوده است .";
+        return RedirectToAction("checkout", "basket");
     }
     public class RequestModel
     {
@@ -79,5 +127,23 @@ public class PayController : Controller
         public string Authority { get; set; }
         public int Fee { get; set; }
         public string FeeType { get; set; }
+    }
+
+
+    public class ResponseData
+    {
+        public int Code { get; set; }
+        public long Ref_ID { get; set; }
+        public string Message { get; set; }
+    }
+    public class RootObject
+    {
+        public ResponseData Data { get; set; }
+        public List<object> Errors { get; set; }
+    }
+    public class VerificationPayResultDto
+    {
+        public int Status { get; set; }
+        public long RefID { get; set; }
     }
 }
