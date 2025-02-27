@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Domain.Baskets;
 using Domain.Catalogs;
+using Domain.Discounts;
 using Domain.Orders;
 using Persistence.EntityConfigurations;
 using Persistence.Seeds;
@@ -29,6 +30,7 @@ public class DatabaseContext : DbContext, IDataBaseContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Payment> Payments { get; set; }
+    public DbSet<Discount> Discounts { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<User>().Property<DateTime?>("InsertTime");

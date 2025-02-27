@@ -1,5 +1,6 @@
 ﻿using Domain.Baskets;
 using Domain.Catalogs;
+using Domain.Discounts;
 using Domain.Orders;
 using Domain.Payments;
 using Domain.Users;
@@ -18,6 +19,7 @@ public interface IDataBaseContext
     DbSet<Order> Orders { get; set; }
     DbSet<OrderItem> OrderItems { get; set; }
     DbSet<Payment> Payments { get; set; }
+    DbSet<Discount> Discounts { get; set; }
     int SaveChanges();
     int SaveChanges(bool acceptAllChangesOnSuccess);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
