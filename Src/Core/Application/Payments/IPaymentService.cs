@@ -27,6 +27,7 @@ public class PaymentService : IPaymentService
     public PaymentOfOrderDto PayForOrder(int orderId)
     {
         var order = _context.Orders.Include(p => p.OrderItems)
+            .Include(p=>p.AppliedDiscount)
             .SingleOrDefault(p => p.Id == orderId);
         if (order == null)
         {
@@ -55,6 +56,8 @@ public class PaymentService : IPaymentService
         var payment = _context.Payments
             .Include(p => p.Order)
             .ThenInclude(p => p.OrderItems)
+            .Include(p=>p.Order)
+            .ThenInclude(p=>p.AppliedDiscount)
             .SingleOrDefault(p => p.Id == id);
 
         var user = _identityContext.Users.SingleOrDefault(p => p.Id == payment.Order.UserId);

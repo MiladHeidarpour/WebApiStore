@@ -1,4 +1,5 @@
 ﻿using Application.BasketsService;
+using Application.Discounts.DiscountServices;
 using Application.Orders;
 using Application.Payments;
 using Application.Users;
@@ -21,15 +22,17 @@ public class BasketController : Controller
     private readonly IOrderService _orderService;
     private readonly SignInManager<User> _signInManager;
     private readonly IPaymentService _paymentService;
+    private readonly IDiscountService _discountService;
     private string userId = null;
 
-    public BasketController(IBasketService basketService, SignInManager<User> signInManager, IUserAddressService userAddressService, IOrderService orderService, IPaymentService paymentService)
+    public BasketController(IBasketService basketService, SignInManager<User> signInManager, IUserAddressService userAddressService, IOrderService orderService, IPaymentService paymentService, IDiscountService discountService)
     {
         _basketService = basketService;
         _signInManager = signInManager;
         _userAddressService = userAddressService;
         _orderService = orderService;
         _paymentService = paymentService;
+        _discountService = discountService;
     }
 
     [AllowAnonymous]
@@ -90,6 +93,20 @@ public class BasketController : Controller
         }
     }
 
+    [AllowAnonymous]
+    [HttpPost]
+    public IActionResult ApplyDiscount(string CouponCode, int BasketId)
+    {
+        _discountService.ApplyDiscountInBasket(CouponCode, BasketId);
+        return RedirectToAction(nameof(Index));
+    }
+
+    [AllowAnonymous]
+    public IActionResult RemoveDiscount(int id)
+    {
+        _discountService.RemoveDiscountFromBasket(id);
+        return RedirectToAction(nameof(Index));
+    }
     public IActionResult CheckOut()
     {
         return View();

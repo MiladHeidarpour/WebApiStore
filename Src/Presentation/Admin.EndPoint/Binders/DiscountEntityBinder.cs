@@ -18,39 +18,45 @@ public class DiscountEntityBinder:IModelBinder
 
         AddNewDiscountDto discountDto = new AddNewDiscountDto()
         {
-            CouponCode = bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.CouponCode)}").Values.ToString(),
+            Name = bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.Name)}").Values.ToString(),
+
+            UsePercentage = bool.Parse(bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.UsePercentage)}").FirstValue.ToString()),
+
+
+            DiscountPercentage = int.Parse(bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.DiscountPercentage)}").Values.ToString()),
 
 
             DiscountAmount = int.Parse(bindingContext.ValueProvider
                 .GetValue($"{fieldName}.{nameof(discountDto.DiscountAmount)}").Values.ToString()),
 
-            DiscountLimitationId = int.Parse(bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.DiscountLimitationId)}").Values.ToString()),
 
+            StartDate = PersianDateTime.Parse(bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.StartDate)}").Values.ToString()),
 
-            DiscountPercentage = int.Parse(bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.DiscountLimitationId)}").Values.ToString()),
-
-            DiscountTypeId = int.Parse(bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.DiscountTypeId)}").Values.ToString()),
-            LimitationTimes = int.Parse(bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.LimitationTimes)}").Values.ToString()),
-
-            UsePercentage = bool.Parse(bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.UsePercentage)}").FirstValue.ToString()),
-
-            Name = bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.Name)}").Values.ToString(),
-
-            RequiresCouponCode = bool.Parse(bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.RequiresCouponCode)}").FirstValue.ToString()),
 
             EndDate = PersianDateTime.Parse(bindingContext.ValueProvider
                 .GetValue($"{fieldName}.{nameof(discountDto.EndDate)}").Values.ToString()),
 
-            StartDate = PersianDateTime.Parse(bindingContext.ValueProvider
-                .GetValue($"{fieldName}.{nameof(discountDto.StartDate)}").Values.ToString()),
+
+            RequiresCouponCode = bool.Parse(bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.RequiresCouponCode)}").FirstValue.ToString()),
+
+
+            CouponCode = bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.CouponCode)}").Values.ToString(),
+
+
+            DiscountTypeId = int.Parse(bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.DiscountTypeId)}").Values.ToString()),
+
+            DiscountLimitationId = int.Parse(bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.DiscountLimitationId)}").Values.ToString()),
+
+            LimitationTimes = int.Parse(bindingContext.ValueProvider
+                .GetValue($"{fieldName}.{nameof(discountDto.LimitationTimes)}").Values.ToString()),
         };
         var appliedToCatalogItem = bindingContext.ValueProvider.GetValue("model.appliedToCatalogItem");
 

@@ -27,7 +27,8 @@ public class OrderService : IOrderService
 
     public int CreateOrder(int basketId, int userAddressId, PaymentMethod paymentMethod)
     {
-        var basket=_context.Baskets.Include(p=>p.Items).SingleOrDefault(p=>p.Id == basketId);
+        var basket=_context.Baskets.Include(p=>p.Items)
+            .Include(p=>p.AppliedDiscount).SingleOrDefault(p=>p.Id == basketId);
         int[] ids = basket.Items.Select(p => p.CatalogItemId).ToArray();
         var catalogItems = _context.CatalogItems.Include(c=>c.CatalogItemImages).Where(p => ids.Contains(p.Id));
         
@@ -41,7 +42,7 @@ public class OrderService : IOrderService
         var userAddress=_context.UserAddresses.SingleOrDefault(p=>p.Id==userAddressId);
         var address=_mapper.Map<Address>(userAddress);
         
-        var order=new Order(basket.BuyerId,address,ordreItems,paymentMethod);
+        var order=new Order(basket.BuyerId,address,ordreItems,paymentMethod,basket.AppliedDiscount);
         _context.Orders.Add(order);
         _context.Baskets.Remove(basket);
         _context.SaveChanges();

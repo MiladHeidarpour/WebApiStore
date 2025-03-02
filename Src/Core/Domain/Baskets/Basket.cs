@@ -1,5 +1,6 @@
 ﻿using Domain.Attributes;
 using Domain.Catalogs;
+using Domain.Discounts;
 
 namespace Domain.Baskets;
 
@@ -10,6 +11,10 @@ public class Basket
     public string BuyerId { get; private set; }
 
     private readonly List<BasketItem> _items = new List<BasketItem>();
+
+    public int DiscountAmount { get;private set; } = 0;
+    public Discount AppliedDiscount { get; private set; }
+    public int? AppliedDiscountId { get;private set; }
     public ICollection<BasketItem> Items => _items.AsReadOnly();
     public Basket(string buyerId)
     {
@@ -26,6 +31,31 @@ public class Basket
         var existingItem = Items.FirstOrDefault(p => p.CatalogItemId == catalogItemId);
         existingItem.AddQuantity(quantity);
     }
+
+    public int TotalPrice()
+    {
+        int totalPrice = _items.Sum(p => p.UnitPrice * p.Quantity);
+        totalPrice -= AppliedDiscount.GetDiscountAmount(totalPrice);
+        return totalPrice;
+    }
+
+    public int TotalPriceWithOutDiescount()
+    {
+        int totalPrice = _items.Sum(p => p.UnitPrice * p.Quantity);
+        return totalPrice;
+    }
+    public void ApplyDiscountCode(Discount discount)
+    {
+        AppliedDiscount = discount;
+        AppliedDiscountId = discount.Id;
+        DiscountAmount = discount.GetDiscountAmount(TotalPriceWithOutDiescount());
+    }
+    public void RemoveDescount()
+    {
+        AppliedDiscount = null;
+        AppliedDiscountId = null;
+        DiscountAmount = 0;
+    }
 }
 [Auditable]
 public class BasketItem
@@ -40,7 +70,7 @@ public class BasketItem
     public BasketItem(int catalogItemId, int quantity, int unitPrice)
     {
         CatalogItemId = catalogItemId;
-        UnitPrice = unitPrice; 
+        UnitPrice = unitPrice;
         SetQuantity(quantity);
     }
 
@@ -50,7 +80,7 @@ public class BasketItem
     }
 
     public void SetQuantity(int quantity)
-    { 
+    {
         Quantity = quantity;
     }
 }

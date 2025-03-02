@@ -14,8 +14,8 @@ public class CreateModel : PageModel
         _service = service;
     }
 
-    [ModelBinder(BinderType = typeof(DiscountEntityBinder))]
     [BindProperty]
+    [ModelBinder(BinderType = typeof(DiscountEntityBinder))]
     public AddNewDiscountDto model { get; set; }
 
     public void OnGet()
