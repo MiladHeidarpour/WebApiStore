@@ -1,4 +1,5 @@
 ﻿using Application.Catalogs.CatalogItems.UriComposer;
+using Application.Discounts;
 using Application.Interfaces.Contexts;
 using AutoMapper;
 using Domain.Orders;
@@ -17,18 +18,21 @@ public class OrderService : IOrderService
     private readonly IDataBaseContext _context;
     private readonly IMapper _mapper;
     private readonly IUriComposerService _uriComposer;
+    private readonly IDiscountHistoryService _discountHistoryService;
 
-    public OrderService(IDataBaseContext context, IMapper mapper, IUriComposerService uriComposer)
+    public OrderService(IDataBaseContext context, IMapper mapper, IUriComposerService uriComposer, IDiscountHistoryService discountHistoryService)
     {
         _context = context;
         _mapper = mapper;
         _uriComposer = uriComposer;
+        _discountHistoryService = discountHistoryService;
     }
 
     public int CreateOrder(int basketId, int userAddressId, PaymentMethod paymentMethod)
     {
         var basket=_context.Baskets.Include(p=>p.Items)
             .Include(p=>p.AppliedDiscount).SingleOrDefault(p=>p.Id == basketId);
+
         int[] ids = basket.Items.Select(p => p.CatalogItemId).ToArray();
         var catalogItems = _context.CatalogItems.Include(c=>c.CatalogItemImages).Where(p => ids.Contains(p.Id));
         
@@ -46,6 +50,10 @@ public class OrderService : IOrderService
         _context.Orders.Add(order);
         _context.Baskets.Remove(basket);
         _context.SaveChanges();
+        if (basket.AppliedDiscount!=null)
+        {
+            _discountHistoryService.InsertDiscountUsageHistory(basket.Id,order.Id);
+        }
         return order.Id;
     }
 }

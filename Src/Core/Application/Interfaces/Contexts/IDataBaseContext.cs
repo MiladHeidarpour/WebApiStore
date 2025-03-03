@@ -20,6 +20,7 @@ public interface IDataBaseContext
     DbSet<OrderItem> OrderItems { get; set; }
     DbSet<Payment> Payments { get; set; }
     DbSet<Discount> Discounts { get; set; }
+    DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
     int SaveChanges();
     int SaveChanges(bool acceptAllChangesOnSuccess);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
