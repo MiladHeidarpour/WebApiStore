@@ -2,6 +2,7 @@ using Admin.EndPoint.MappingProfiles;
 using Application.Catalogs.CatalogItems.AddNewCatalogItem;
 using Application.Catalogs.CatalogItems.CatalogItemServices;
 using Application.Catalogs.CatalogTypes.CrudService;
+using Application.Discounts;
 using Application.Discounts.AddNewDiscountService;
 using Application.Discounts.DiscountServices;
 using Application.Interfaces.Contexts;
@@ -31,6 +32,7 @@ builder.Services.AddTransient<IValidator<AddNewCatalogItemDto>, AddNewCatalogIte
 builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
 builder.Services.AddTransient<IAddNewDiscountService, AddNewDiscountService>();
 builder.Services.AddTransient<IDiscountService, DiscountService>();
+builder.Services.AddTransient<IDiscountHistoryService, DiscountHistoryService>();
 //mapper
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));
 builder.Services.AddAutoMapper(typeof(CatalogVMMappingProfile));

@@ -23,9 +23,10 @@ public class BasketController : Controller
     private readonly SignInManager<User> _signInManager;
     private readonly IPaymentService _paymentService;
     private readonly IDiscountService _discountService;
+    private readonly UserManager<User> _userManager;
     private string userId = null;
 
-    public BasketController(IBasketService basketService, SignInManager<User> signInManager, IUserAddressService userAddressService, IOrderService orderService, IPaymentService paymentService, IDiscountService discountService)
+    public BasketController(IBasketService basketService, SignInManager<User> signInManager, IUserAddressService userAddressService, IOrderService orderService, IPaymentService paymentService, IDiscountService discountService, UserManager<User> userManager)
     {
         _basketService = basketService;
         _signInManager = signInManager;
@@ -33,6 +34,7 @@ public class BasketController : Controller
         _orderService = orderService;
         _paymentService = paymentService;
         _discountService = discountService;
+        _userManager = userManager;
     }
 
     [AllowAnonymous]
@@ -97,7 +99,19 @@ public class BasketController : Controller
     [HttpPost]
     public IActionResult ApplyDiscount(string CouponCode, int BasketId)
     {
-        _discountService.ApplyDiscountInBasket(CouponCode, BasketId);
+        var user = _userManager.GetUserAsync(User).Result;
+        var validDiscount = _discountService.IsDiscountValid(CouponCode, user);
+
+        if (validDiscount.IsSuccess)
+        {
+            _discountService.ApplyDiscountInBasket(CouponCode, BasketId);
+        }
+        else
+        {
+            TempData["InvalidMessage"] = String.Join(Environment.NewLine, validDiscount.Message.Select(a=>String.Join(",",a)));
+        }
+
+        
         return RedirectToAction(nameof(Index));
     }
 

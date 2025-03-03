@@ -9,6 +9,13 @@
     <div class="row mb-4">
         <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
             <div class="checkout-section shadow-around">
+                @if (TempData["InvalidMessage"] != null)
+                {
+                    <div class="alert alert-warning">
+                        <b>@TempData["InvalidMessage"]</b>
+                        <br/>
+                    </div>
+                }
                 <div class="checkout-step">
                     <ul>
                         <li class="active"><span>سبد خرید</span></li>
@@ -65,7 +72,7 @@
                                                     </div>
                                                 </div>
                                                 <form asp-controller="Basket" asp-action="RemoveItemFromBasket" method="post">
-                                                    <input name="ItemId" type="hidden" value="@item.Id" />
+                                                    <input name="ItemId" type="hidden" value="@item.Id"/>
                                                     <button type="submit" class="item-remove-btn mr-3">
                                                         <i class="far fa-trash-alt"></i>
                                                         حذف
@@ -76,7 +83,8 @@
                                                 @{
                                                     var price = (item.UnitPrice * item.Quantity);
 
-                                                    <text> <p>@price.ToString("n0")</p></text>
+                                                    <text>
+                                                        <p>@price.ToString("n0")</p></text>
                                                 }
                                                 <span class="text-sm mr-1">تومان</span>
                                             </div>
