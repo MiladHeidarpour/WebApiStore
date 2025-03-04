@@ -26,9 +26,11 @@ public class GetCatalogItemPLPService : IGetCatalogItemPLPService
     {
         int rowCount = 0;
         var data = _context.CatalogItems
+            .Include(p=>p.Discounts)
             .Include(p => p.CatalogItemImages)
             .OrderByDescending(p => p.Id)
             .PagedResult(page, pageSize, out rowCount)
+            .ToList()
             .Select(p => new CatalogPLPDto()
             {
                 Id = p.Id,

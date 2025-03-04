@@ -162,10 +162,21 @@
                         <div class="product-price">
                             <div class="product-price-info">
                                 <div class="product-price-off">
-                                    %10 <span>تخفیف</span>
+                                    @if (Model.PercentDiscount != 0)
+                                    {
+                                        <div>
+                                            %@Model.PercentDiscount
+                                            <span> تخفیف </span>
+                                        </div>
+                                    }
                                 </div>
                                 <div class="product-price-prev">
-                                    3,216,000
+                                    @if (Model.OldPrice != 0)
+                                    {
+                                        <span>
+                                            @Model.OldPrice.Value.ToString("n0")
+                                        </span>
+                                    }
                                 </div>
                             </div>
                             <div class="product-price-real">

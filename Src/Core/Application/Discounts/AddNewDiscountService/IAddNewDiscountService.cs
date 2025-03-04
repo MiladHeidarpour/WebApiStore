@@ -63,7 +63,7 @@ public class AddNewDiscountDto
     [Display(Name = "استفاده از کوپن")]
     public bool RequiresCouponCode { get; set; }
     [Display(Name = "کد کوپن")]
-    public string CouponCode { get; set; }
+    public string? CouponCode { get; set; }
     [Display(Name = "نوع تخفیف")]
     public int DiscountTypeId { get; set; }
     [Display(Name = "محدودیت تخفیف")]

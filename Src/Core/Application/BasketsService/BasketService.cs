@@ -19,10 +19,14 @@ public class BasketService : IBasketService
     public BasketDto GetOrCreateBasketForUser(string BuyerId)
     {
         var basket = _context.Baskets
-            .Include(p=>p.AppliedDiscount)
             .Include(p => p.Items)
             .ThenInclude(p => p.CatalogItem)
             .ThenInclude(p => p.CatalogItemImages)
+
+            .Include(p => p.Items)
+            .ThenInclude(p => p.CatalogItem)
+            .ThenInclude(p => p.Discounts)
+
             .SingleOrDefault(p => p.BuyerId == BuyerId);
 
         if (basket == null)
@@ -41,7 +45,7 @@ public class BasketService : IBasketService
                 Id = item.Id,
                 CatalogName = item.CatalogItem.Name,
                 Quantity = item.Quantity,
-                UnitPrice = item.UnitPrice,
+                UnitPrice = item.CatalogItem.Price,
                 ImageUrl = _uriService.ComposeImageUri(item?.CatalogItem?.CatalogItemImages?.FirstOrDefault()?.Src ?? ""),
             }).ToList(),
         };
