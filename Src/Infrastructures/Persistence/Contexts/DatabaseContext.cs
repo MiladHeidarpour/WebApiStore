@@ -32,6 +32,7 @@ public class DatabaseContext : DbContext, IDataBaseContext
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Discount> Discounts { get; set; }
     public DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
+    public DbSet<CatalogItemFavorite> CatalogItemFavorites { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<User>().Property<DateTime?>("InsertTime");

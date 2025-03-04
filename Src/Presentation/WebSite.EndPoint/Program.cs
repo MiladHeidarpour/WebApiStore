@@ -1,5 +1,6 @@
 using Application.BasketsService;
 using Application.Catalogs.CatalogItems.CatalogItemPDP;
+using Application.Catalogs.CatalogItems.CatalogItemServices;
 using Application.Catalogs.CatalogItems.GetCatalogItemPLP;
 using Application.Catalogs.CatalogItems.UriComposer;
 using Application.Catalogs.CatalogTypes.CrudService;
@@ -57,6 +58,7 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<IDiscountService, DiscountService>();
 builder.Services.AddTransient<IDiscountHistoryService, DiscountHistoryService>();
+builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 
 
 builder.Services.AddAutoMapper(typeof(UserMappingProfile));

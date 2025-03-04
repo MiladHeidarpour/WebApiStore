@@ -1,6 +1,7 @@
 using Admin.EndPoint.MappingProfiles;
 using Application.Catalogs.CatalogItems.AddNewCatalogItem;
 using Application.Catalogs.CatalogItems.CatalogItemServices;
+using Application.Catalogs.CatalogItems.UriComposer;
 using Application.Catalogs.CatalogTypes.CrudService;
 using Application.Discounts;
 using Application.Discounts.AddNewDiscountService;
@@ -33,6 +34,8 @@ builder.Services.AddTransient<IImageUploadService, ImageUploadService>();
 builder.Services.AddTransient<IAddNewDiscountService, AddNewDiscountService>();
 builder.Services.AddTransient<IDiscountService, DiscountService>();
 builder.Services.AddTransient<IDiscountHistoryService, DiscountHistoryService>();
+builder.Services.AddTransient<IUriComposerService, UriComposerService>();
+
 //mapper
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));
 builder.Services.AddAutoMapper(typeof(CatalogVMMappingProfile));
