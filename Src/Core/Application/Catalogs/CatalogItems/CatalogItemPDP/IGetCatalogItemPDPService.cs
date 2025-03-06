@@ -29,6 +29,8 @@ public class GetCatalogItemPDPService : IGetCatalogItemPDPService
             .Include(p => p.CatalogBrand)
             .Include(p=>p.Discounts)
             .SingleOrDefault(p => p.Id == Id);
+        catalogitem.VisitCount += 1;
+        _context.SaveChanges();
 
         var feature = catalogitem.CatalogItemFeatures
             .Select(p => new PDPFeaturesDto

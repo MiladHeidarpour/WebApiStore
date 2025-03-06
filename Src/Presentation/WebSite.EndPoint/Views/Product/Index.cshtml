@@ -1,7 +1,7 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Application.Catalogs.CatalogItems.GetCatalogItemPLP
-@model Application.Dtos.PaginatedItemsDto<CatalogPLPDto>
-
+﻿@using Application.Catalogs.CatalogItems.GetCatalogItemPLP
+@using Application.Dtos;
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PaginatedItemsDto<CatalogPLPDto>
 @{
     ViewData["Title"] = "لیست محصولات";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,88 +18,55 @@
                     <button class="btn-close-filter-sidebar"><i class="fal fa-times"></i></button>
                 </div>
             </div><div class="sidebar-widget">
-                <div class="widget widget-filter-options shadow-around">
-                    <div class="widget-title">برند</div>
-                    <div class="search-in-options form-element-row">
-                        <div class="form-element-with-icon">
-                            <input type="text" class="input-element" placeholder="جستجوی نام برند...">
-                            <i class="fad fa-file-search"></i>
+
+                @* @await Component.InvokeAsync("BrandFilter") *@
+
+
+                <form asp-action="Index" method="get">
+
+                    <div class="widget shadow-around">
+                        <div class="widget-content">
+                            <div class="custom-control custom-switch">
+                                @{
+                                    var AvailableStock = Context.Request.Query["AvailableStock"];
+                                    if (AvailableStock == "true")
+                                    {
+                                        <input type="checkbox"
+                                               name="AvailableStock"
+                                               onclick="submit();"
+                                               value="false"
+                                               checked
+                                               class="custom-control-input" id="customSwitch1">
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="AvailableStock"
+                                               value="true" class="custom-control-input"
+                                               id="customSwitch1" onclick="submit();">
+
+                                    }
+                                }
+
+
+                                @foreach (var queryString in Context.Request.Query.Where(p => p.Key == "brandId" || p.Key == "CatalogTypeId").ToList())
+                                {
+                                    foreach (var item in queryString.Value)
+                                    {
+                                        <input type="hidden" name="@queryString.Key" value="@item" />
+                                    }
+                                }
+
+
+                                <label class="custom-control-label" for="customSwitch1">
+                                    فقط کالاهای موجود در
+                                    انبار
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div class="widget-content">
-                        <label class="container-checkbox">
-                            سامسونگ
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            شیائومی
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            هوآوی
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            اپل
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            نوکیا
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            آنر
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            ال جی
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            ایسوس
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            سونی
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            گوگل
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            سونی اریکسون
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="container-checkbox">
-                            جی ال ایکس
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="widget shadow-around">
-                    <div class="widget-content">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1">
-                                فقط کالاهای موجود در
-                                انبار
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                </form>
+
+
                 <div class="widget shadow-around">
                     <div class="widget-content">
                         <div class="custom-control custom-switch">
@@ -252,16 +219,46 @@
         </div>
         <div class="listing-items row">
 
+            <ul class="nav nav-pills col-md-12">
+
+                <li class="nav-item">
+                    <b class="nav-link " aria-current="page">مرتب‌سازی بر اساس :</b>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-route-sorttype="1"> پربازدیدترین</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-route-sorttype="2">  پرفروش‌ترین</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-route-sorttype="3"> محبوب‌ترین</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-route-sorttype="4"> ‌جدیدترین</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-route-sorttype="5"> ارزان‌ترین</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-route-sorttype="6"> گران‌ترین</a>
+                </li>
+            </ul>
+
             @foreach (var item in Model.Data)
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 px-0">
                     <div class="product-card">
                         <div class="product-card-top">
-                            <a class="product-image" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
+                            <a href="" class="product-image">
                                 <img src="@item.Image" alt="@item.Name">
                             </a>
                             <div class="product-card-actions">
-                                <a asp-area="Customers" asp-controller="MyFavorite" asp-action="AddToMyFavorite" asp-route-catalogItemId="@item.Id" class="add-to-wishlist"><i class="fas fa-heart"></i></a>
+                                <a asp-area="Customers"
+                                   asp-controller="MyFavorite"
+                                   asp-action="AddToMyFavorite"
+                                   asp-route-CatalogItemId="@item.Id"
+                                   class="add-to-wishlist"><i class="fas fa-heart"></i></a>
                                 <button class="add-to-compare"><i class="fas fa-random"></i></button>
                             </div>
                         </div>
@@ -279,13 +276,34 @@
                                     @item.Name
                                 </a>
                             </h6>
-                            <div class="product-price product-price-clone">@item.Price.ToString("n0") تومان</div>
+                            @if (item.AvailableStock > 0)
+                            {
+                                <div class="product-price product-price-clone">@item.Price.ToString("n0") تومان</div>
+                            }
+                            else
+                            {
+                                <div class="product-price product-price-clone">
+                                    <b class="text-danger">ناموجود </b>
+                                </div>
+
+                            }
                         </div>
                         <div class="product-card-bottom">
                             <div class="product-price">
-                                @item.Price.ToString("n0")  تومان
+                                @if (item.AvailableStock > 0)
+                                {
+                                    <div class="product-price">
+                                        @item.Price.ToString("n0")  تومان
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product-price">
+                                        <b class="text-danger">ناموجود </b>
+                                    </div>
+                                }
                             </div>
-                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" class="btn-add-to-cart">
+                            <a asp-action="Details" asp-controller="Product" asp-route-id="@item.Id" class="btn-add-to-cart">
                                 <i class="fad fa-cart-plus"></i>
                                 نمایش جزئیات
                             </a>
@@ -310,3 +328,4 @@
         </div>
     </div>
 </div>
+

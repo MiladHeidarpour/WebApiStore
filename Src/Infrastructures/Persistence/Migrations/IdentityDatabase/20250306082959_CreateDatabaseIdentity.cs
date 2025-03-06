@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations.IdentityDatabase
 {
-    public partial class AddIdentity : Migration
+    public partial class CreateDatabaseIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -14,9 +14,9 @@ public class ProductController : Controller
         _catalogPDPService = catalogPdpService;
     }
 
-    public IActionResult Index(int page = 1, int pageSize = 20)
+    public IActionResult Index(CatlogPLPRequestDto request)
     {
-        var data = _catalogPLPService.Execute(page, pageSize);
+        var data = _catalogPLPService.Execute(request);
         return View(data);
     }
 

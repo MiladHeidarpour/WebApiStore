@@ -5,27 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddPayment : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Baskets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BuyerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 437, DateTimeKind.Local).AddTicks(6759)),
-                    IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Baskets", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "CatalogBrand",
                 columns: table => new
@@ -33,7 +16,7 @@ namespace Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Brand = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 437, DateTimeKind.Local).AddTicks(9772)),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 585, DateTimeKind.Local).AddTicks(6567)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -51,7 +34,7 @@ namespace Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ParentCatalogTypeId = table.Column<int>(type: "int", nullable: true),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 438, DateTimeKind.Local).AddTicks(6544)),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 586, DateTimeKind.Local).AddTicks(5751)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -67,29 +50,30 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Discounts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Address_State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_PostalAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_ReciverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
-                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
-                    OrderStatus = table.Column<int>(type: "int", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 438, DateTimeKind.Local).AddTicks(8488)),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UsePercentage = table.Column<bool>(type: "bit", nullable: false),
+                    DiscountPercentage = table.Column<int>(type: "int", nullable: false),
+                    DiscountAmount = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RequiresCouponCode = table.Column<bool>(type: "bit", nullable: false),
+                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiscountTypeId = table.Column<int>(type: "int", nullable: false),
+                    LimitationTimes = table.Column<int>(type: "int", nullable: false),
+                    DiscountLimitationId = table.Column<int>(type: "int", nullable: false),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 586, DateTimeKind.Local).AddTicks(8084)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_Discounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +88,7 @@ namespace Persistence.Migrations
                     PostalAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReciverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 439, DateTimeKind.Local).AddTicks(3233)),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 587, DateTimeKind.Local).AddTicks(6594)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -123,12 +107,15 @@ namespace Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
+                    OldPrice = table.Column<int>(type: "int", nullable: true),
+                    PercentDiscount = table.Column<int>(type: "int", nullable: true),
                     CatalogTypeId = table.Column<int>(type: "int", nullable: false),
                     CatalogBrandId = table.Column<int>(type: "int", nullable: false),
                     AvailableStock = table.Column<int>(type: "int", nullable: false),
                     RestockThreshold = table.Column<int>(type: "int", nullable: false),
                     MaxStockThreshold = table.Column<int>(type: "int", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 438, DateTimeKind.Local).AddTicks(1347)),
+                    VisitCount = table.Column<int>(type: "int", nullable: false),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 585, DateTimeKind.Local).AddTicks(8484)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -151,85 +138,104 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItems",
+                name: "Baskets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CatalogItemId = table.Column<int>(type: "int", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PictureUri = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UnitPrice = table.Column<int>(type: "int", nullable: false),
-                    Units = table.Column<int>(type: "int", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 439, DateTimeKind.Local).AddTicks(448)),
+                    BuyerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiscountAmount = table.Column<int>(type: "int", nullable: false),
+                    AppliedDiscountId = table.Column<int>(type: "int", nullable: true),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 585, DateTimeKind.Local).AddTicks(3147)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItems", x => x.Id);
+                    table.PrimaryKey("PK_Baskets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
+                        name: "FK_Baskets_Discounts_AppliedDiscountId",
+                        column: x => x.AppliedDiscountId,
+                        principalTable: "Discounts",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payments",
+                name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    IsPay = table.Column<bool>(type: "bit", nullable: false),
-                    DatePay = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Authority = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefId = table.Column<long>(type: "bigint", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 439, DateTimeKind.Local).AddTicks(1807)),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Address_State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_PostalAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_ReciverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
+                    OrderStatus = table.Column<int>(type: "int", nullable: false),
+                    DiscountAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AppliedDiscountId = table.Column<int>(type: "int", nullable: true),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 587, DateTimeKind.Local).AddTicks(936)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
+                        name: "FK_Orders_Discounts_AppliedDiscountId",
+                        column: x => x.AppliedDiscountId,
+                        principalTable: "Discounts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CatalogItemDiscount",
+                columns: table => new
+                {
+                    CatalogItemsId = table.Column<int>(type: "int", nullable: false),
+                    DiscountsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CatalogItemDiscount", x => new { x.CatalogItemsId, x.DiscountsId });
+                    table.ForeignKey(
+                        name: "FK_CatalogItemDiscount_CatalogItems_CatalogItemsId",
+                        column: x => x.CatalogItemsId,
+                        principalTable: "CatalogItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CatalogItemDiscount_Discounts_DiscountsId",
+                        column: x => x.DiscountsId,
+                        principalTable: "Discounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BasketItems",
+                name: "CatalogItemFavorites",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UnitPrice = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CatalogItemId = table.Column<int>(type: "int", nullable: false),
-                    BasketId = table.Column<int>(type: "int", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 437, DateTimeKind.Local).AddTicks(8180)),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 586, DateTimeKind.Local).AddTicks(1397)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BasketItems", x => x.Id);
+                    table.PrimaryKey("PK_CatalogItemFavorites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BasketItems_Baskets_BasketId",
-                        column: x => x.BasketId,
-                        principalTable: "Baskets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BasketItems_CatalogItems_CatalogItemId",
+                        name: "FK_CatalogItemFavorites_CatalogItems_CatalogItemId",
                         column: x => x.CatalogItemId,
                         principalTable: "CatalogItems",
                         principalColumn: "Id",
@@ -247,7 +253,7 @@ namespace Persistence.Migrations
                     Group = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CatalogItemId = table.Column<int>(type: "int", nullable: false),
                     CatlogItemId = table.Column<int>(type: "int", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 438, DateTimeKind.Local).AddTicks(3545)),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 586, DateTimeKind.Local).AddTicks(2653)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -272,7 +278,7 @@ namespace Persistence.Migrations
                     Src = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CatalogItemId = table.Column<int>(type: "int", nullable: false),
                     CatlogItemId = table.Column<int>(type: "int", nullable: false),
-                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 2, 26, 19, 59, 46, 438, DateTimeKind.Local).AddTicks(4989)),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 586, DateTimeKind.Local).AddTicks(4120)),
                     IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -284,6 +290,125 @@ namespace Persistence.Migrations
                         name: "FK_CatalogItemImage_CatalogItems_CatalogItemId",
                         column: x => x.CatalogItemId,
                         principalTable: "CatalogItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BasketItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UnitPrice = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    CatalogItemId = table.Column<int>(type: "int", nullable: false),
+                    BasketId = table.Column<int>(type: "int", nullable: false),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 585, DateTimeKind.Local).AddTicks(5042)),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BasketItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BasketItems_Baskets_BasketId",
+                        column: x => x.BasketId,
+                        principalTable: "Baskets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BasketItems_CatalogItems_CatalogItemId",
+                        column: x => x.CatalogItemId,
+                        principalTable: "CatalogItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DiscountUsageHistories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DiscountId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DiscountUsageHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DiscountUsageHistories_Discounts_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "Discounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DiscountUsageHistories_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CatalogItemId = table.Column<int>(type: "int", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PictureUri = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnitPrice = table.Column<int>(type: "int", nullable: false),
+                    Units = table.Column<int>(type: "int", nullable: false),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 587, DateTimeKind.Local).AddTicks(3605)),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_CatalogItems_CatalogItemId",
+                        column: x => x.CatalogItemId,
+                        principalTable: "CatalogItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    IsPay = table.Column<bool>(type: "bit", nullable: false),
+                    DatePay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Authority = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefId = table.Column<long>(type: "bigint", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    InsertTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 3, 6, 11, 59, 8, 587, DateTimeKind.Local).AddTicks(5245)),
+                    IsRemoved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    RemoveTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -337,6 +462,21 @@ namespace Persistence.Migrations
                 column: "CatalogItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Baskets_AppliedDiscountId",
+                table: "Baskets",
+                column: "AppliedDiscountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CatalogItemDiscount_DiscountsId",
+                table: "CatalogItemDiscount",
+                column: "DiscountsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CatalogItemFavorites_CatalogItemId",
+                table: "CatalogItemFavorites",
+                column: "CatalogItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CatalogItemFeature_CatalogItemId",
                 table: "CatalogItemFeature",
                 column: "CatalogItemId");
@@ -362,9 +502,29 @@ namespace Persistence.Migrations
                 column: "ParentCatalogTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DiscountUsageHistories_DiscountId",
+                table: "DiscountUsageHistories",
+                column: "DiscountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DiscountUsageHistories_OrderId",
+                table: "DiscountUsageHistories",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_CatalogItemId",
+                table: "OrderItems",
+                column: "CatalogItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_AppliedDiscountId",
+                table: "Orders",
+                column: "AppliedDiscountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_OrderId",
@@ -378,10 +538,19 @@ namespace Persistence.Migrations
                 name: "BasketItems");
 
             migrationBuilder.DropTable(
+                name: "CatalogItemDiscount");
+
+            migrationBuilder.DropTable(
+                name: "CatalogItemFavorites");
+
+            migrationBuilder.DropTable(
                 name: "CatalogItemFeature");
 
             migrationBuilder.DropTable(
                 name: "CatalogItemImage");
+
+            migrationBuilder.DropTable(
+                name: "DiscountUsageHistories");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
@@ -406,6 +575,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "CatalogType");
+
+            migrationBuilder.DropTable(
+                name: "Discounts");
         }
     }
 }
