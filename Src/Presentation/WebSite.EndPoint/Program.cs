@@ -7,6 +7,7 @@ using Application.Catalogs.CatalogTypes.CrudService;
 using Application.Catalogs.GetMenuItem;
 using Application.Discounts;
 using Application.Discounts.DiscountServices;
+using Application.HomePageService;
 using Application.Interfaces.Contexts;
 using Application.Orders;
 using Application.Orders.CustomerOrdersService;
@@ -61,6 +62,7 @@ builder.Services.AddTransient<IDiscountService, DiscountService>();
 builder.Services.AddTransient<IDiscountHistoryService, DiscountHistoryService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 builder.Services.AddTransient<ICustomerOrderService, CustomerOrderService>();
+builder.Services.AddTransient<IHomePageService, HomePageService>();
 
 
 builder.Services.AddAutoMapper(typeof(UserMappingProfile));

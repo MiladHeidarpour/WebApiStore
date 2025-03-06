@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Banners;
 using Domain.Baskets;
 using Domain.Catalogs;
 using Domain.Discounts;
@@ -24,6 +25,7 @@ public interface IDataBaseContext
     DbSet<Discount> Discounts { get; set; }
     DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
     DbSet<CatalogItemFavorite> CatalogItemFavorites { get; set; }
+    DbSet<Banner> Banners { get; set; }
     int SaveChanges();
     int SaveChanges(bool acceptAllChangesOnSuccess);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());

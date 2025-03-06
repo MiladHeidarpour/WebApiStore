@@ -1,4 +1,5 @@
 using Admin.EndPoint.MappingProfiles;
+using Application.Banners;
 using Application.Catalogs.CatalogItems.AddNewCatalogItem;
 using Application.Catalogs.CatalogItems.CatalogItemServices;
 using Application.Catalogs.CatalogItems.UriComposer;
@@ -35,6 +36,7 @@ builder.Services.AddTransient<IAddNewDiscountService, AddNewDiscountService>();
 builder.Services.AddTransient<IDiscountService, DiscountService>();
 builder.Services.AddTransient<IDiscountHistoryService, DiscountHistoryService>();
 builder.Services.AddTransient<IUriComposerService, UriComposerService>();
+builder.Services.AddTransient<IBannerService, BannerService>();
 
 //mapper
 builder.Services.AddAutoMapper(typeof(CatalogMappingProfile));

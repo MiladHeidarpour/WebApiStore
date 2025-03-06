@@ -3,6 +3,7 @@ using Domain.Attributes;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Domain.Banners;
 using Domain.Baskets;
 using Domain.Catalogs;
 using Domain.Discounts;
@@ -33,6 +34,7 @@ public class DatabaseContext : DbContext, IDataBaseContext
     public DbSet<Discount> Discounts { get; set; }
     public DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
     public DbSet<CatalogItemFavorite> CatalogItemFavorites { get; set; }
+    public DbSet<Banner> Banners { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<User>().Property<DateTime?>("InsertTime");

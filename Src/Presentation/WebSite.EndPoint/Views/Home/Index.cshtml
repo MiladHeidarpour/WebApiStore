@@ -1,3 +1,496 @@
-﻿@{
+﻿@using Domain.Banners
+@using Application.HomePageService
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model HomePageDto;
+@{
     ViewData["Title"] = "Home Page";
+
+    var sliders = Model.Banners.Where(p => p.Position == Position.Slider).ToList();
+    var Line_1 = Model.Banners.Where(p => p.Position == Position.Line_1).FirstOrDefault();
+    var Line_2 = Model.Banners.Where(p => p.Position == Position.Line_2).ToList();
+    var Line_3 = Model.Banners.Where(p => p.Position == Position.Line_3).ToList();
+    var Line_4 = Model.Banners.Where(p => p.Position == Position.Line_4).ToList();
+    var Line_5 = Model.Banners.Where(p => p.Position == Position.Line_5).ToList();
 }
+
+<div class="container">
+    <div class="row d-none d-sm-block">
+        <div class="col-12 mb-3">
+            @if (Line_1 != null)
+            {
+                <div class="banner">
+                    <a href="@Line_1.Link">
+                        <img src="@Line_1.Image" alt="banner">
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-8 ml-lg-0 mb-3">
+            <div class="main-slider">
+                <div class="swiper-container main-page-slider swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
+                    <div class="swiper-wrapper" style="transform: translate3d(4405px, 0px, 0px); transition-duration: 300ms;">
+
+
+                        @foreach (var item in sliders)
+                        {
+                            <div class="swiper-slide" data-swiper-slide-index="3" style="width: 881px;">
+                                <a href="@item.Link">
+                                    <img src="@item.Image" alt="">
+                                </a>
+                            </div>
+                        }
+
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide"></div>
+                    <div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide"></div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                </div>
+                <div class="swiper-container main-page-slider-thumbs d-none d-sm-block swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
+                    <div class="swiper-wrapper" style="transition-duration: 300ms; transform: translate3d(84532.5px, 0px, 0px);">
+                        <div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="5" style="width: 16906.5px;">
+                            <span>فعال سازی رمز پویا</span>
+                        </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="6" style="width: 16906.5px;">
+                            <span>محصولات ورزشی</span>
+                        </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="7" style="width: 16906.5px;">
+                            <span>صوتی تصویری</span>
+                        </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="8" style="width: 16906.5px;">
+                            <span>فروش ویژه موبایل</span>
+                        </div>
+                        <div class="swiper-slide swiper-slide-prev" data-swiper-slide-index="0" style="width: 16906.5px;">
+                            <span>جشنواره هوآوی</span>
+                        </div>
+                        <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="1" style="width: 16906.5px;">
+                            <span>سوپرمارکت  باگتو </span>
+                        </div>
+                        <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="2" style="width: 16906.5px;">
+                            <span>خرید سر ماه</span>
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="3" style="width: 16906.5px;">
+                            <span>خانگی برقی</span>
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="4" style="width: 16906.5px;">
+                            <span>ایکس ویژن</span>
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="5" style="width: 16906.5px;">
+                            <span>فعال سازی رمز پویا</span>
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="6" style="width: 16906.5px;">
+                            <span>محصولات ورزشی</span>
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="7" style="width: 16906.5px;">
+                            <span>صوتی تصویری</span>
+                        </div>
+                        <div class="swiper-slide" data-swiper-slide-index="8" style="width: 16906.5px;">
+                            <span>فروش ویژه موبایل</span>
+                        </div>
+                        <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="0" style="width: 16906.5px;">
+                            <span>جشنواره هوآوی</span>
+                        </div><div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="1" style="width: 16906.5px;">
+                            <span>سوپرمارکت  باگتو </span>
+                        </div><div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="2" style="width: 16906.5px;">
+                            <span>خرید سر ماه</span>
+                        </div><div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="3" style="width: 16906.5px;">
+                            <span>خانگی برقی</span>
+                        </div>
+                    </div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                @foreach (var item in Line_2.Take(2))
+                {
+                    <div class="col-lg-12 col-sm-6 col-12">
+                        <div class="banner mb-3">
+                            <a href="@item.Link">
+                                <img src="@item.Image" alt="banner">
+                            </a>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center mb-4">
+        <div class="col-lg-4 order-2 order-lg-1">
+            <div class="row mt-4 mt-lg-0">
+                @foreach (var item in Line_3.Take(2))
+                {
+                    <div class="col-lg-12 col-sm-6 col-12">
+                        <div class="banner mb-4">
+                            <a href="@item.Link">
+                                <img src="@item.Image" alt="banner">
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="col-lg-8 order-1 order-lg-2">
+            <div class="offer-slider-wrapper">
+                <div class="offer-slider-title">پیشنهاد شگفت انگیز</div>
+                <div class="row">
+                    <div class="col-12 mb-1">
+                        <div class="swiper-container offer-slider swiper-container-fade swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
+                            <div class="swiper-wrapper" style="transition-duration: 300ms;">
+                                <div class="swiper-slide swiper-slide-active" style="width: 881px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 300ms;">
+                                    <div class="row align-items-center pb-3">
+                                        <div class="col-sm-6 col-12 order-2 order-sm-1">
+                                            <div class="product-title">
+                                                <a href="#">
+                                                    گوشی موبایل سامسونگ مدل Galaxy Note10 Lite SM-N770F/DS
+                                                    دو سیم کارت ظرفیت 128 گیگابایت
+                                                </a>
+                                            </div>
+                                            <div class="product-price">
+                                                <del>13,699,000 تومان</del>
+                                                13,250,000 تومان
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12 order-1 order-sm-2">
+                                            <div class="offer-slide-content">
+                                                <div class="product-thumbnail">
+                                                    <a href="#">
+                                                        <img src="./assets/images/offer-slider/01.jpg" alt="item">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide swiper-slide-next" style="width: 881px; opacity: 0; transform: translate3d(881px, 0px, 0px); transition-duration: 300ms;">
+                                    <div class="row align-items-center pb-3">
+                                        <div class="col-sm-6 col-12 order-2 order-sm-1">
+                                            <div class="product-title">
+                                                <a href="#">هدفون بی سیم سامسونگ مدل Galaxy Buds Live</a>
+                                            </div>
+                                            <div class="product-price">
+                                                <del>2,988,000 تومان</del>
+                                                2,450,000 تومان
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12 order-1 order-sm-2">
+                                            <div class="offer-slide-content">
+                                                <div class="product-thumbnail">
+                                                    <a href="#">
+                                                        <img src="./assets/images/offer-slider/02.jpg" alt="item">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" style="width: 881px; opacity: 0; transform: translate3d(1762px, 0px, 0px); transition-duration: 300ms;">
+                                    <div class="row align-items-center pb-3">
+                                        <div class="col-sm-6 col-12 order-2 order-sm-1">
+                                            <div class="product-title">
+                                                <a href="#">
+                                                    ساعت هوشمند سامسونگ مدل Galaxy Watch Active2
+                                                    44mm
+                                                </a>
+                                            </div>
+                                            <div class="product-price">
+                                                <del>5,650,000 تومان</del>
+                                                5,020,000 تومان
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12 order-1 order-sm-2">
+                                            <div class="offer-slide-content">
+                                                <div class="product-thumbnail">
+                                                    <a href="#">
+                                                        <img src="./assets/images/offer-slider/03.jpg" alt="item">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" style="width: 881px; opacity: 0; transform: translate3d(2643px, 0px, 0px); transition-duration: 300ms;">
+                                    <div class="row align-items-center pb-3">
+                                        <div class="col-sm-6 col-12 order-2 order-sm-1">
+                                            <div class="product-title">
+                                                <a href="#">هدفون بی سیم مدل inpods 12</a>
+                                            </div>
+                                            <div class="product-price">
+                                                <del>130,000 تومان</del>
+                                                109,000 تومان
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12 order-1 order-sm-2">
+                                            <div class="offer-slide-content">
+                                                <div class="product-thumbnail">
+                                                    <a href="#">
+                                                        <img src="./assets/images/offer-slider/04.jpg" alt="item">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" style="width: 881px; opacity: 0; transform: translate3d(3524px, 0px, 0px); transition-duration: 300ms;">
+                                    <div class="row align-items-center pb-3">
+                                        <div class="col-sm-6 col-12 order-2 order-sm-1">
+                                            <div class="product-title">
+                                                <a href="#">
+                                                    ساعت هوشمند سامسونگ مدل Galaxy Watch Active2
+                                                    44mm Leatherband Smart
+                                                </a>
+                                            </div>
+                                            <div class="product-price">
+                                                <del>6,299,000 تومان</del>
+                                                5,999,000 تومان
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-12 order-1 order-sm-2">
+                                            <div class="offer-slide-content">
+                                                <div class="product-thumbnail">
+                                                    <a href="#">
+                                                        <img src="./assets/images/offer-slider/05.jpg" alt="item">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center pb-4">
+                    <div class="col-lg-8 mt-2 mb-4 mb-lg-0">
+                        <div class="offer-slider-thumbs-wrapper">
+                            <div class="px-0 px-sm-5">
+                                <div class="swiper-container offer-slider-thumbs swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
+                                    <div class="swiper-wrapper" style="transition-duration: 300ms; transform: translate3d(-192.4px, 0px, 0px);">
+                                        <div class="swiper-slide swiper-slide-active" style="width: 96.2px;">
+                                            <img src="./assets/images/offer-slider/01.jpg" alt="item">
+                                        </div>
+                                        <div class="swiper-slide swiper-slide-next" style="width: 96.2px;">
+                                            <img src="./assets/images/offer-slider/02.jpg" alt="item">
+                                        </div>
+                                        <div class="swiper-slide" style="width: 96.2px;">
+                                            <img src="./assets/images/offer-slider/03.jpg" alt="item">
+                                        </div>
+                                        <div class="swiper-slide" style="width: 96.2px;">
+                                            <img src="./assets/images/offer-slider/04.jpg" alt="item">
+                                        </div>
+                                        <div class="swiper-slide" style="width: 96.2px;">
+                                            <img src="./assets/images/offer-slider/05.jpg" alt="item">
+                                        </div>
+                                    </div>
+                                    <!-- Add Pagination -->
+                                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 5"></span></div>
+                                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                                </div>
+                            </div>
+                            <!-- Add Arrows -->
+                            <div class="offer-slider-button-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"><i class="far fa-chevron-left"></i></div>
+                            <div class="offer-slider-button-prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true"><i class="far fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="d-flex justify-content-center">
+                            <div id="countdown--offer-slider"><div class="ClassyCountdown-wrapper"><div class="ClassyCountdown-days" style="height: 40px;"><div style="display: inline; height: 40px; width: 40px;"><canvas width="40" height="40"></canvas><input type="text" style="display: none; width: 0px; visibility: hidden;" readonly="readonly"></div><span class="ClassyCountdown-value" style="font-family: &quot;Open Sans&quot;; font-weight: 300; color: rgb(52, 73, 94); margin-top: -10px; font-size: 12px;"><div>7</div><span></span></span></div><div class="ClassyCountdown-hours" style="height: 40px;"><div style="display: inline; height: 40px; width: 40px;"><canvas width="40" height="40"></canvas><input type="text" style="display: none; width: 0px; visibility: hidden;" readonly="readonly"></div><span class="ClassyCountdown-value" style="font-family: &quot;Open Sans&quot;; font-weight: 300; color: rgb(52, 73, 94); margin-top: -10px; font-size: 12px;"><div>11</div><span></span></span></div><div class="ClassyCountdown-minutes" style="height: 40px;"><div style="display: inline; height: 40px; width: 40px;"><canvas width="40" height="40"></canvas><input type="text" style="display: none; width: 0px; visibility: hidden;" readonly="readonly"></div><span class="ClassyCountdown-value" style="font-family: &quot;Open Sans&quot;; font-weight: 300; color: rgb(52, 73, 94); margin-top: -10px; font-size: 12px;"><div>6</div><span></span></span></div><div class="ClassyCountdown-seconds" style="height: 40px;"><div style="display: inline; height: 40px; width: 40px;"><canvas width="40" height="40"></canvas><input type="text" style="display: none; width: 0px; visibility: hidden;" readonly="readonly"></div><span class="ClassyCountdown-value" style="font-family: &quot;Open Sans&quot;; font-weight: 300; color: rgb(52, 73, 94); margin-top: -10px; font-size: 12px;"><div>48</div><span></span></span></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="product-carousel">
+        <div class="section-title">
+            <i class="fad fa-pen-nib"></i>
+            پرفروشترین محصولات
+        </div>
+        <div class="swiper-container slider-lg swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
+            <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+
+                @foreach (var item in Model.bestSellers)
+                {
+                    <div class="swiper-slide" style="width: 214.333px; margin-left: 10px;">
+                        <div class="product-card">
+                            <div class="product-card-top">
+                                <a href="" class="product-image">
+                                    <img src="@item.Image" alt="product image">
+                                </a>
+                                <div class="product-card-actions">
+                                    <a class="add-to-wishlist"
+                                       asp-area="Customers" asp-controller="MyFavorite" asp-action="AddToMyFavorite" asp-route-CatalogItemId="@item.Id">
+                                        <i class="fas fa-heart"></i>
+                                    </a>                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-card-middle">
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        @{
+                                            int rate = item.Rate * 20;
+                                        }
+                                        <div class="ratings-val" style="width: @rate%;"></div>
+                                    </div>
+                                </div>
+                                <h6 class="product-name">
+                                    <a href="#">
+                                        @item.Name
+                                    </a>
+                                </h6>
+
+                                @if (item.AvailableStock > 0)
+                                {
+                                    <div class="product-price product-price-clone">@item.Price.ToString("n0") تومان</div>
+                                }
+                                else
+                                {
+                                    <div class="product-price product-price-clone">
+                                        <b class="text-danger">ناموجود </b>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="product-card-bottom">
+                                @if (item.AvailableStock > 0)
+                                {
+                                    <div class="product-price">
+                                        @item.Price.ToString("n0")  تومان
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product-price">
+                                        <b class="text-danger">ناموجود </b>
+                                    </div>
+                                }
+                                <a asp-action="Details" asp-controller="Product" asp-route-id="@item.Id" class="btn-add-to-cart">
+                                    <i class="fad fa-cart-plus"></i>
+                                    نمایش جزئیات
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></div>
+        <div class="swiper-button-prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true"></div>
+        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+
+    </section>
+    <div class="row mb-5">
+
+        @foreach (var item in Line_4.Take(4))
+        {
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="@item.Link">
+                        <img src="@item.Image" alt="banner">
+                    </a>
+                </div>
+            </div>
+        }
+
+
+    </div>
+    <div class="row mb-5">
+
+        @foreach (var item in Line_5.Take(2))
+        {
+            <div class="col-md-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="@item.Link">
+                        <img src="@item.Image" alt="banner">
+                    </a>
+                </div>
+            </div>
+        }
+
+
+    </div>
+
+    <div class="section-title">
+        <i class="fa fa-heart"></i>
+        پرفروشترین محصولات
+    </div>
+    <div class="listing-items row">
+
+
+        @foreach (var item in Model.MostPopular)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 px-0">
+                <div class="product-card">
+                    <div class="product-card-top">
+                        <a href="" class="product-image">
+                            <img src="@item.Image" alt="@item.Name">
+                        </a>
+                        <div class="product-card-actions">
+                            <a class="add-to-wishlist"
+                               asp-area="Customers" asp-controller="MyFavorite" asp-action="AddToMyFavorite" asp-route-CatalogItemId="@item.Id">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                            <button class="add-to-compare"><i class="fas fa-random"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-card-middle">
+                        <div class="ratings-container">
+                            <div class="ratings">
+                                @{
+                                    int rate = item.Rate * 20;
+                                }
+                                <div class="ratings-val" style="width: @rate%;"></div>
+                            </div>
+                        </div>
+                        <h6 class="product-name">
+                            <a href="#">
+                                @item.Name
+                            </a>
+                        </h6>
+                        @if (item.AvailableStock > 0)
+                        {
+                            <div class="product-price product-price-clone">@item.Price.ToString("n0") تومان</div>
+                        }
+                        else
+                        {
+                            <div class="product-price product-price-clone">
+                                <b class="text-danger">ناموجود </b>
+                            </div>
+                        }
+                    </div>
+                    <div class="product-card-bottom">
+
+                        @if (item.AvailableStock > 0)
+                        {
+                            <div class="product-price">
+                                @item.Price.ToString("n0")  تومان
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="product-price">
+                                <b class="text-danger">ناموجود </b>
+                            </div>
+                        }
+
+
+                        <a asp-action="Details" asp-controller="Product" asp-route-id="@item.Id" class="btn-add-to-cart">
+                            <i class="fad fa-cart-plus"></i>
+                            نمایش جزئیات
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>

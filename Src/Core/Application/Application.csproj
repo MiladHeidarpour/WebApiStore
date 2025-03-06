@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Catalogs\CatalogItems\CatalogItemPDP\" />
+    <Folder Include="Banners\" />
     <Folder Include="Orders\CustomerOrdersService\" />
     <Folder Include="Payments\" />
   </ItemGroup>

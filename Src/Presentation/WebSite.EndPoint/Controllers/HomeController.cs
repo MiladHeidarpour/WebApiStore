@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Application.HomePageService;
 using Microsoft.AspNetCore.Authorization;
 using WebSite.EndPoint.Models;
 using WebSite.EndPoint.Utilities.Filters;
@@ -11,15 +12,17 @@ namespace WebSite.EndPoint.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly IHomePageService _homePageService;
+    public HomeController(ILogger<HomeController> logger, IHomePageService homePageService)
     {
         _logger = logger;
+        _homePageService = homePageService;
     }
 
     public IActionResult Index()
     {
-        return View();
+        var data = _homePageService.GetData();
+        return View(data);
     }
 
     [Authorize]
