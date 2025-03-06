@@ -17,27 +17,38 @@ public class CatalogItem
 
     public int Price
     {
-        get
-        {
-            return GetPrice();
-        }
-        set
-        {
-            Price = _Price;
-        }
+        get => GetPrice();
+        set => _Price = value; // مقدار را روی _Price تنظیم کنید
     }
 
     public int? OldPrice
     {
-        get
-        {
-            return _OldPrice;
-        }
-        set
-        {
-            OldPrice=_OldPrice;
-        }
+        get => _OldPrice;
+        set => _OldPrice = value; // مقدار را روی _OldPrice تنظیم کنید
     }
+    //public int Price
+    //{
+    //    get
+    //    {
+    //        return GetPrice();
+    //    }
+    //    set
+    //    {
+    //        Price = _Price;
+    //    }
+    //}
+
+    //public int? OldPrice
+    //{
+    //    get
+    //    {
+    //        return _OldPrice;
+    //    }
+    //    set
+    //    {
+    //        OldPrice=_OldPrice;
+    //    }
+    //}
 
     public int? PercentDiscount { get; set; }
 

@@ -76,7 +76,11 @@ public class Order
     public int TotalPrice()
     {
         int totalPrice = _orderItems.Sum(p => p.UnitPrice * p.Units);
-        totalPrice -= AppliedDiscount.GetDiscountAmount(totalPrice);
+        if (AppliedDiscount!=null)
+        {
+            totalPrice -= AppliedDiscount.GetDiscountAmount(totalPrice);
+        }
+        
         return totalPrice;
     }
 

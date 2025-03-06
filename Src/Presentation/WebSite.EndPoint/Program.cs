@@ -9,6 +9,7 @@ using Application.Discounts;
 using Application.Discounts.DiscountServices;
 using Application.Interfaces.Contexts;
 using Application.Orders;
+using Application.Orders.CustomerOrdersService;
 using Application.Payments;
 using Application.Users;
 using Application.Visitors.SaveVisitorInfo;
@@ -59,6 +60,7 @@ builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<IDiscountService, DiscountService>();
 builder.Services.AddTransient<IDiscountHistoryService, DiscountHistoryService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
+builder.Services.AddTransient<ICustomerOrderService, CustomerOrderService>();
 
 
 builder.Services.AddAutoMapper(typeof(UserMappingProfile));

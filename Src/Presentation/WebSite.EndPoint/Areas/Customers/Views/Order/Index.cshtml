@@ -1,0 +1,319 @@
+﻿@using Application.Orders.CustomerOrdersService
+@model List<MyOrderDto>
+
+@{
+    ViewData["Title"] = "سفارشات من";
+    Layout = "~/Views/Shared/_LayoutCustomerPanel.cshtml";
+    var data = Model;
+}
+
+
+
+<section class="shadow-around p-3">
+    <div class="d-none d-sm-block">
+        <ul class="nav nav-tabs" id="orders-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="wait-for-payment-tab" data-toggle="tab" href="#wait-for-payment" role="tab" aria-controls="wait-for-payment" aria-selected="true">
+                    در انتظار پرداخت
+                    <span class="badge badge-secondary">4</span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pain-in-progress-tab" data-toggle="tab" href="#pain-in-progress" role="tab" aria-controls="pain-in-progress" aria-selected="false">
+                    در حال پردازش
+                    <span class="badge badge-secondary">2</span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="delivered-tab" data-toggle="tab" href="#delivered" role="tab" aria-controls="delivered" aria-selected="false">
+                    تحویل داده شده
+                    <span class="badge badge-secondary">2</span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="returned-tab" data-toggle="tab" href="#returned" role="tab" aria-controls="returned" aria-selected="false">
+                    مرجوعی
+                    <span class="badge badge-secondary">0</span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="canceled-tab" data-toggle="tab" href="#canceled" role="tab" aria-controls="canceled" aria-selected="false">
+                    لغو شده
+                    <span class="badge badge-secondary">5</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="d-sm-none tab-responsive-order-list">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                لیست سفارشات بر اساس
+            </button>
+            <div class="dropdown-menu shadow-around w-100" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" data-toggle="tab" href="#wait-for-payment" role="tab" aria-controls="wait-for-payment" aria-selected="true">
+                    در
+                    انتظار پرداخت
+                </a>
+                <a class="dropdown-item" data-toggle="tab" href="#pain-in-progress" role="tab" aria-controls="pain-in-progress" aria-selected="false">
+                    در
+                    حال پردازش
+                </a>
+                <a class="dropdown-item" data-toggle="tab" href="#delivered" role="tab" aria-controls="delivered" aria-selected="false">تحویل داده شده</a>
+                <a class="dropdown-item" data-toggle="tab" href="#returned" role="tab" aria-controls="returned" aria-selected="false">مرجوعی</a>
+                <a class="dropdown-item" data-toggle="tab" href="#canceled" role="tab" aria-controls="canceled" aria-selected="false">لغو شده</a>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="orders-tab">
+        <div class="tab-pane fade active show" id="wait-for-payment" role="tabpanel" aria-labelledby="wait-for-payment-tab">
+            <section class="table--order shadow-around mt-4">
+                <div class="table-responsive">
+                    @{
+                        data = Model.Where(p => p.PaymentStatus == Domain.Orders.PaymentStatus.WaitingForPayment).ToList();
+                        if (data.Count() > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>شماره سفارش</th>
+                                        <th>تاریخ ثبت سفارش</th>
+                                        <th>مبلغ کل</th>
+                                        <th> وضعیت</th>
+                                        <th>عملیات پرداخت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in data)
+                                    {
+                                        <tr>
+                                            <td class="order-code">BUG-@item.Id</td>
+                                            <td> @item.Date</td>
+                                            <td>@item.Price.ToString("n0") تومان</td>
+                                            <td>@item.OrderStatus.ToString()</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="empty-box">
+                                <div class="icon">
+                                    <i class="fal fa-times-circle"></i>
+                                </div>
+                                <div class="message">
+                                    <p>سفارشی برای نمایش وجود نداره!</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="pain-in-progress" role="tabpanel" aria-labelledby="pain-in-progress-tab">
+            <section class="table--order shadow-around mt-4">
+                <div class="table-responsive">
+                    @{
+                        data = Model.Where(p => p.OrderStatus == Domain.Orders.OrderStatus.Processing).ToList();
+                        if (data.Count() > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>شماره سفارش</th>
+                                        <th>تاریخ ثبت سفارش</th>
+                                        <th>مبلغ کل</th>
+                                        <th> وضعیت</th>
+                                        <th>عملیات پرداخت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in data)
+                                    {
+                                        <tr>
+                                            <td class="order-code">BUG-@item.Id</td>
+                                            <td> @item.Date</td>
+                                            <td>@item.Price.ToString("n0") تومان</td>
+                                            <td>@item.OrderStatus.ToString()</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="empty-box">
+                                <div class="icon">
+                                    <i class="fal fa-times-circle"></i>
+                                </div>
+                                <div class="message">
+                                    <p>سفارشی برای نمایش وجود نداره!</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="delivered-tab">
+            <section class="table--order shadow-around mt-4">
+                <div class="table-responsive">
+                    @{
+                        data = Model.Where(p => p.OrderStatus == Domain.Orders.OrderStatus.Delivered).ToList();
+                        if (data.Count() > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>شماره سفارش</th>
+                                        <th>تاریخ ثبت سفارش</th>
+                                        <th>مبلغ کل</th>
+                                        <th> وضعیت</th>
+                                        <th>عملیات پرداخت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in data)
+                                    {
+                                        <tr>
+                                            <td class="order-code">BUG-@item.Id</td>
+                                            <td> @item.Date</td>
+                                            <td>@item.Price.ToString("n0") تومان</td>
+                                            <td>@item.OrderStatus.ToString()</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="empty-box">
+                                <div class="icon">
+                                    <i class="fal fa-times-circle"></i>
+                                </div>
+                                <div class="message">
+                                    <p>سفارشی برای نمایش وجود نداره!</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="returned" role="tabpanel" aria-labelledby="returned-tab">
+            <section class="table--order shadow-around mt-4">
+                <div class="table-responsive">
+                    @{
+                        data = Model.Where(p => p.OrderStatus == Domain.Orders.OrderStatus.Returned).ToList();
+                        if (data.Count() > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>شماره سفارش</th>
+                                        <th>تاریخ ثبت سفارش</th>
+                                        <th>مبلغ کل</th>
+                                        <th> وضعیت</th>
+                                        <th>عملیات پرداخت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in data)
+                                    {
+                                        <tr>
+                                            <td class="order-code">BUG-@item.Id</td>
+                                            <td> @item.Date</td>
+                                            <td>@item.Price.ToString("n0") تومان</td>
+                                            <td>@item.OrderStatus.ToString()</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="empty-box">
+                                <div class="icon">
+                                    <i class="fal fa-times-circle"></i>
+                                </div>
+                                <div class="message">
+                                    <p>سفارشی برای نمایش وجود نداره!</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="canceled" role="tabpanel" aria-labelledby="canceled-tab">
+            <section class="table--order shadow-around mt-4">
+                <div class="table-responsive">
+                    @{
+                        data = Model.Where(p => p.OrderStatus == Domain.Orders.OrderStatus.Cancelled).ToList();
+                        if (data.Count() > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>شماره سفارش</th>
+                                        <th>تاریخ ثبت سفارش</th>
+                                        <th>مبلغ کل</th>
+                                        <th> وضعیت</th>
+                                        <th>عملیات پرداخت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in data)
+                                    {
+                                        <tr>
+                                            <td class="order-code">BUG-@item.Id</td>
+                                            <td> @item.Date</td>
+                                            <td>@item.Price.ToString("n0") تومان</td>
+                                            <td>@item.OrderStatus.ToString()</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="empty-box">
+                                <div class="icon">
+                                    <i class="fal fa-times-circle"></i>
+                                </div>
+                                <div class="message">
+                                    <p>سفارشی برای نمایش وجود نداره!</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </section>
+        </div>
+    </div>
+</section>

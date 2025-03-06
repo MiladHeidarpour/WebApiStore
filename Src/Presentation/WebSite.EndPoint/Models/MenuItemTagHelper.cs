@@ -54,10 +54,11 @@ namespace WebSite.EndPoint.Models
                 int index = 0;
                 foreach (var sub1 in data.Where(p => p.ParentCatalogTypeId == item.Id))
                 {
+                    string link = $"product?CatalogTypeId={sub1.Id}";
                     if (index < 13)
                     {
                         var a = new TagBuilder("a");
-                        a.MergeAttribute("href", $"#");
+                        a.MergeAttribute("href", link);
                         a.InnerHtml.Append(sub1.Type);
                         liCol_1.InnerHtml.AppendHtml(a);
 
@@ -68,7 +69,7 @@ namespace WebSite.EndPoint.Models
                     {
 
                         var a = new TagBuilder("a");
-                        a.MergeAttribute("href", $"#");
+                        a.MergeAttribute("href", link);
                         a.InnerHtml.Append(sub1.Type);
                         liCol_2.InnerHtml.AppendHtml(a);
 
@@ -80,7 +81,7 @@ namespace WebSite.EndPoint.Models
                     else if (index < 39)
                     {
                         var a = new TagBuilder("a");
-                        a.MergeAttribute("href", $"#");
+                        a.MergeAttribute("href", link);
                         a.InnerHtml.Append(sub1.Type);
                         liCol_3.InnerHtml.AppendHtml(a);
 
@@ -92,7 +93,7 @@ namespace WebSite.EndPoint.Models
                     else
                     {
                         var a = new TagBuilder("a");
-                        a.MergeAttribute("href", $"#");
+                        a.MergeAttribute("href", link);
                         a.InnerHtml.Append(sub1.Type);
                         liCol_4.InnerHtml.AppendHtml(a);
 
@@ -115,7 +116,7 @@ namespace WebSite.EndPoint.Models
             var ulsub2 = new TagBuilder("ul");
             foreach (var sub2 in data.Where(p => p.ParentCatalogTypeId == sub1.Id))
             {
-                ulsub2.InnerHtml.AppendHtml(CreateLi(sub2.Type, "#"));
+                ulsub2.InnerHtml.AppendHtml(CreateLi(sub2.Type, $"product?CatalogTypeId={sub2.Id}"));
                 IndexCount++;
             }
             return ulsub2;

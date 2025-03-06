@@ -96,7 +96,7 @@ public class PayController : Controller
                 bool verifyResult = _paymentService.VerifyPayment(id, authority, verification.RefID);
                 if (verifyResult)
                 {
-                    return Redirect("/customers/orders/");
+                    return Redirect("/customers/order/");
                 }
                 else
                 {

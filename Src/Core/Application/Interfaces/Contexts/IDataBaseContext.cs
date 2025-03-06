@@ -1,10 +1,12 @@
-﻿using Domain.Baskets;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Baskets;
 using Domain.Catalogs;
 using Domain.Discounts;
 using Domain.Orders;
 using Domain.Payments;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Application.Interfaces.Contexts;
 
@@ -26,4 +28,5 @@ public interface IDataBaseContext
     int SaveChanges(bool acceptAllChangesOnSuccess);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
     Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = new CancellationToken());
+    EntityEntry Entry([NotNull] object entity);
 }

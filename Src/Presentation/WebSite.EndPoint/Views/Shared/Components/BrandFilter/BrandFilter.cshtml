@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model List<Application.Catalogs.CatalogItems.CatalogItemServices.CatalogBrandDto>
+@using Application.Catalogs.CatalogItems.CatalogItemServices
+@model List<CatalogBrandDto>
 @{
     Layout = null;
     var BRANSID = Context.Request.Query["brandId"];
