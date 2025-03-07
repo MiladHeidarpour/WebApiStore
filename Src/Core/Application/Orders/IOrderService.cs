@@ -1,5 +1,6 @@
 ﻿using Application.Catalogs.CatalogItems.UriComposer;
 using Application.Discounts;
+using Application.Exceptions;
 using Application.Interfaces.Contexts;
 using AutoMapper;
 using Domain.Orders;
@@ -32,6 +33,11 @@ public class OrderService : IOrderService
     {
         var basket=_context.Baskets.Include(p=>p.Items)
             .Include(p=>p.AppliedDiscount).SingleOrDefault(p=>p.Id == basketId);
+
+        if (basket ==null)
+        {
+            throw new NotFoundException(nameof(basket), basketId);
+        }
 
         int[] ids = basket.Items.Select(p => p.CatalogItemId).ToArray();
         var catalogItems = _context.CatalogItems.Include(c=>c.CatalogItemImages).Where(p => ids.Contains(p.Id));

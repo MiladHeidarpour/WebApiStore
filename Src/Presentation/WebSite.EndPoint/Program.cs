@@ -22,6 +22,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 using Persistence.MongoContext;
 using WebSite.EndPoint.Hubs;
+using WebSite.EndPoint.MiddleWares;
 using WebSite.EndPoint.Utilities.Filters;
 using WebSite.EndPoint.Utilities.MiddleWares;
 
@@ -78,6 +79,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCustomExceptionHandler();
 app.UseSetVisitorId();
 
 app.UseHttpsRedirection();
