@@ -57,18 +57,93 @@
                                                 </td>
                                             </tr>
                                         }
-
-
-
                                     </tbody>
                                 </table>
-                            </div><div class="col-md-12"><div class="row"><div class="col-md-5"><div class="dataTables_info" id="html5-extension_info" role="status" aria-live="polite">صفحه 1 از 4</div></div><div class="col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="html5-extension_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="html5-extension_previous"><a href="#" aria-controls="html5-extension" data-dt-idx="0" tabindex="0" class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a></li><li class="paginate_button page-item active"><a href="#" aria-controls="html5-extension" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="html5-extension" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="html5-extension" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="html5-extension" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item next" id="html5-extension_next"><a href="#" aria-controls="html5-extension" data-dt-idx="5" tabindex="0" class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a></li></ul></div></div></div></div>
+                                @{
+                                    var prevDisabled = !Model.CatalogType.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.CatalogType.HasNextPage ? "disabled" : "";
+                                }
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="dataTables_info" id="html5-extension_info" role="status" aria-live="polite">
+
+                                            صفحه @Model.CatalogType.PageIndex
+                                            از
+                                            @Model.CatalogType.Pager.TotalPage
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="html5-extension_paginate">
+                                            <ul class="pagination">
+
+                                                <li class="paginate_button page-item">
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="1"
+                                                       aria-controls="html5-extension"
+                                                       data-dt-idx="2" tabindex="0"
+                                                       class="page-link"> صفحه اول</a>
+                                                </li>
+
+                                                <li class="paginate_button page-item active">
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="@(Model.CatalogType.PageIndex - 1)"
+                                                       class="btn btn-default @prevDisabled">
+                                                        قبلی
+                                                    </a>
+                                                </li>
+
+                                                @foreach (var item in Model.CatalogType.Pager.Pages)
+                                                {
+                                                    if (item == Model.CatalogType.PageIndex)
+                                                    {
+                                                        <li class="paginate_button page-item  active">
+                                                            <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                               asp-route-pageIndex="@item"
+                                                               aria-controls="html5-extension"
+                                                               data-dt-idx="2" tabindex="0"
+                                                               class="page-link"> @item</a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="paginate_button page-item ">
+                                                            <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                               asp-route-pageIndex="@item"
+                                                               aria-controls="html5-extension"
+                                                               data-dt-idx="2" tabindex="0"
+                                                               class="page-link"> @item</a>
+                                                        </li>
+                                                    }
+
+                                                }
+
+                                                <li class="paginate_button page-item ">
+
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="@(Model.CatalogType.PageIndex + 1)"
+                                                       class="btn btn-default @nextDisabled">
+                                                        بعدی
+                                                    </a>
+                                                </li>
+
+                                                <li class="paginate_button page-item">
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="@Model.CatalogType.Pager.TotalPage"
+                                                       aria-controls="html5-extension"
+                                                       data-dt-idx="2" tabindex="0"
+                                                       class="page-link"> صفحه آخر</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
