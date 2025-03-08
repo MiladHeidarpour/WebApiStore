@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text;
+using System.Text.Json;
 using Application.HomePageService;
+using Infrastructure.CacheHelpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Distributed;
 using WebSite.EndPoint.Models;
 using WebSite.EndPoint.Utilities.Filters;
 
@@ -13,16 +17,34 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IHomePageService _homePageService;
-    public HomeController(ILogger<HomeController> logger, IHomePageService homePageService)
+    private readonly IDistributedCache _cache;
+    public HomeController(ILogger<HomeController> logger, IHomePageService homePageService, IDistributedCache cache)
     {
         _logger = logger;
         _homePageService = homePageService;
+        _cache = cache;
     }
 
     public IActionResult Index()
     {
-        var data = _homePageService.GetData();
-        return View(data);
+        HomePageDto homePageData = new HomePageDto();
+
+        var homePageCache= _cache.GetAsync(CacheHelper.GenerateHomePageCacheKey()).Result;
+
+        if (homePageCache!=null)
+        {
+            homePageData = JsonSerializer.Deserialize<HomePageDto>(homePageCache);
+        }
+        else
+        {
+            homePageData= _homePageService.GetData();
+            string jsonData = JsonSerializer.Serialize(homePageData);
+            byte[] encodedJson = Encoding.UTF8.GetBytes(jsonData);
+            var options = new DistributedCacheEntryOptions().SetSlidingExpiration(CacheHelper.DefaultCacheDuration);
+            _cache.SetAsync(CacheHelper.GenerateHomePageCacheKey(), encodedJson, options);
+        }
+
+        return View(homePageData);
     }
 
     [Authorize]

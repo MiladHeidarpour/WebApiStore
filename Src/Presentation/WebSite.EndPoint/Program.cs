@@ -36,6 +36,13 @@ builder.Services.AddTransient<IIdentityDatabaseContext, IdentityDatabaseContext>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(option => option.UseSqlServer(connectionString));
 
+builder.Services.AddDistributedSqlServerCache(option =>
+{
+    option.ConnectionString = connectionString;
+    option.SchemaName = "dbo";
+    option.TableName = "CacheData";
+});
+
 builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.ConfigureApplicationCookie(option =>

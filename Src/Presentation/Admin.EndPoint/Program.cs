@@ -24,6 +24,13 @@ builder.Services.AddControllers();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(option => option.UseSqlServer(connectionString));
 
+builder.Services.AddDistributedSqlServerCache(option =>
+{
+    option.ConnectionString = connectionString;
+    option.SchemaName = "dbo";
+    option.TableName = "CacheData";
+});
+
 builder.Services.AddScoped<IDataBaseContext, DatabaseContext>();
 builder.Services.AddTransient(typeof(IMongoDbContext<>), typeof(MongoDbContext<>));
 builder.Services.AddTransient<IGetTodayReportService, GetTodayReportService>();
