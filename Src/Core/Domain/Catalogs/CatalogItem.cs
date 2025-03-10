@@ -61,6 +61,7 @@ public class CatalogItem
     public int RestockThreshold { get; set; }
     public int MaxStockThreshold { get; set; }
     public int VisitCount { get; set; }
+    public string Slug { get; set; }
     public ICollection<CatalogItemFeature> CatalogItemFeatures { get; set; }
     public ICollection<CatalogItemImage> CatalogItemImages { get; set; }
     public ICollection<Discount> Discounts { get; set; }

@@ -20,9 +20,9 @@ public class ProductController : Controller
         return View(data);
     }
 
-    public IActionResult Details(int id)
+    public IActionResult Details(string slug)
     {
-        var data = _catalogPDPService.Execute(id);
+        var data = _catalogPDPService.Execute(slug);
         return View(data);
     }
 }

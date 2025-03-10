@@ -108,6 +108,11 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
     app.MapHub<OnlineVisitorHub>("/ChatHub");
+
+    endpoints.MapControllerRoute(
+        name: "ProductDetails",
+        pattern: "product/{slug}",
+        defaults: new { controller = "Product", Action = "Details" });
 });
 
 

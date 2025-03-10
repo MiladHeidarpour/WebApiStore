@@ -3,8 +3,42 @@
 @model CatalogItemPDPDto;
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
+    ViewData["Description"] = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section JsonLd {
+    <script type='application/ld+json'>
+        {
+        "@@context": "https://schema.org",
+        "@@type": "BreadcrumbList",
+        "itemListElement": [{
+        "@@type": "ListItem",
+        "position": 1,
+        "name": "باگتو",
+        "item": "https://bugeto.net/"
+        },
+        {
+        "@@type": "ListItem",
+        "position": 2,
+        "name": "دوره ها",
+        "item": "https://bugeto.net/courses"
+        },
+        {
+        "@@type": "ListItem",
+        "position": 3,
+        "name": "",
+        "item": ""
+        },
+        {
+        "@@type": "ListItem",
+        "position": 4,
+        "name": "",
+        "item": "https://bugeto.net/courses/"
+        }]
+        }
+    </script>
 }
 
 <div class="container">
