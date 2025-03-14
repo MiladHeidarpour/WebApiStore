@@ -1,5 +1,6 @@
 ﻿using Application.Comments.Commands;
 using Application.Interfaces.Contexts;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Application.Comments.Queries;

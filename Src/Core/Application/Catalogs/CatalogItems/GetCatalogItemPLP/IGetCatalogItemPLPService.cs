@@ -112,9 +112,9 @@ public class CatlogPLPRequestDto
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 10;
     public int? CatalogTypeId { get; set; }
-    public int[] BrandId { get; set; }
+    public int[]? BrandId { get; set; }
     public bool AvailableStock { get; set; }
-    public string SearchKey { get; set; }
+    public string? SearchKey { get; set; }
     public SortType SortType { get; set; }
 }
 

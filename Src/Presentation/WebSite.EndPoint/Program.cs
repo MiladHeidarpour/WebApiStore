@@ -18,6 +18,7 @@ using Application.Visitors.SaveVisitorInfo;
 using Application.Visitors.VisitorOnline;
 using Infrastructure.IdentityConfigs;
 using Infrastructure.MappingProfile;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
@@ -32,7 +33,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-builder.Services.AddMediatR(typeof(SendCommentCommand).Assembly);
 
 builder.Services.AddTransient<IDataBaseContext, DatabaseContext>();
 builder.Services.AddTransient<IIdentityDatabaseContext, IdentityDatabaseContext>();
@@ -56,6 +56,7 @@ builder.Services.ConfigureApplicationCookie(option =>
     option.SlidingExpiration = true;
 });
 
+builder.Services.AddMediatR(typeof(SendCommentCommand).Assembly);
 builder.Services.AddTransient(typeof(IMongoDbContext<>), typeof(MongoDbContext<>));
 builder.Services.AddTransient<ISaveVisitorInfoService, SaveVisitorInfoService>();
 builder.Services.AddScoped<SaveVisitorFilter>();
