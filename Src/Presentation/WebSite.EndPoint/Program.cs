@@ -5,6 +5,7 @@ using Application.Catalogs.CatalogItems.GetCatalogItemPLP;
 using Application.Catalogs.CatalogItems.UriComposer;
 using Application.Catalogs.CatalogTypes.CrudService;
 using Application.Catalogs.GetMenuItem;
+using Application.Comments.Commands;
 using Application.Discounts;
 using Application.Discounts.DiscountServices;
 using Application.HomePageService;
@@ -30,6 +31,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+builder.Services.AddMediatR(typeof(SendCommentCommand).Assembly);
 
 builder.Services.AddTransient<IDataBaseContext, DatabaseContext>();
 builder.Services.AddTransient<IIdentityDatabaseContext, IdentityDatabaseContext>();

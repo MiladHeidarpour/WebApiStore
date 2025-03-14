@@ -26,6 +26,7 @@ public interface IDataBaseContext
     DbSet<DiscountUsageHistory> DiscountUsageHistories { get; set; }
     DbSet<CatalogItemFavorite> CatalogItemFavorites { get; set; }
     DbSet<Banner> Banners { get; set; }
+    DbSet<CatalogItemComment> CatalogItemComments { get; set; }
     int SaveChanges();
     int SaveChanges(bool acceptAllChangesOnSuccess);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
